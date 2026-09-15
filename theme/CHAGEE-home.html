@@ -1,0 +1,1583 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#183f36" />
+    <title>For Nik, with love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --forest: #173d34;
+        --leaf: #477a5d;
+        --mint: #c9dfc8;
+        --paper: #f8f6ef;
+        --cream: #ece9df;
+        --ink: #1d2521;
+        --muted: #718078;
+        --line: rgba(23, 61, 52, 0.18);
+        --serif: "DM Serif Display", Georgia, serif;
+        --sans: "Manrope", Arial, sans-serif;
+        --mono: "DM Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--sans);
+      }
+      button {
+        border: 0;
+        font: inherit;
+        cursor: pointer;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      .wrap {
+        width: min(1160px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+      .eyebrow {
+        color: var(--leaf);
+        font: 500 11px var(--mono);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .serif {
+        font-family: var(--serif);
+        font-weight: 400;
+      }
+      .topbar {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        padding: 24px 0;
+        position: relative;
+        z-index: 2;
+      }
+      .brand {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .brand-mark {
+        align-items: center;
+        background: var(--forest);
+        border-radius: 50%;
+        color: var(--paper);
+        display: flex;
+        font: 18px var(--serif);
+        height: 32px;
+        justify-content: center;
+        width: 32px;
+      }
+      .topbar-link {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .hero {
+        background: var(--mint);
+        min-height: 720px;
+        overflow: hidden;
+        position: relative;
+      }
+      .hero:before {
+        border: 1px solid rgba(23, 61, 52, 0.17);
+        border-radius: 50%;
+        content: "";
+        height: 680px;
+        pointer-events: none;
+        position: absolute;
+        right: -160px;
+        top: -200px;
+        width: 680px;
+      }
+      .hero-grid {
+        align-items: center;
+        display: grid;
+        gap: 60px;
+        grid-template-columns: 0.88fr 1.12fr;
+        min-height: 650px;
+        position: relative;
+      }
+      .hero-copy {
+        max-width: 490px;
+        padding: 70px 0;
+      }
+      .hero h1 {
+        color: var(--forest);
+        font-size: clamp(64px, 9vw, 132px);
+        line-height: 0.82;
+        margin: 22px 0 28px;
+        letter-spacing: -0.045em;
+      }
+      .hero h1 em {
+        display: block;
+        font-style: italic;
+        margin-left: 32px;
+      }
+      .hero-intro {
+        color: #456257;
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 350px;
+      }
+      .scroll-cue {
+        align-items: center;
+        color: var(--forest);
+        display: flex;
+        font: 11px var(--mono);
+        gap: 12px;
+        margin-top: 80px;
+        text-transform: uppercase;
+      }
+      .scroll-cue:before {
+        background: var(--forest);
+        content: "";
+        height: 1px;
+        width: 48px;
+      }
+      .hero-photo {
+        height: 540px;
+        justify-self: end;
+        position: relative;
+        transform: rotate(3deg);
+        width: min(100%, 430px);
+      }
+      .hero-photo img {
+        height: 100%;
+        object-fit: cover;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+      }
+      .hero-photo:after {
+        border: 1px solid var(--forest);
+        content: "";
+        inset: 14px -14px -14px 14px;
+        position: absolute;
+        z-index: 0;
+      }
+      .photo-caption {
+        bottom: -32px;
+        color: var(--forest);
+        font: 10px var(--mono);
+        left: 5px;
+        letter-spacing: 0.12em;
+        position: absolute;
+        text-transform: uppercase;
+        transform: rotate(-3deg);
+        z-index: 2;
+      }
+      .section {
+        padding: 130px 0;
+      }
+      .section-head {
+        align-items: end;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 54px;
+      }
+      .section h2 {
+        color: var(--forest);
+        font-size: clamp(44px, 6vw, 76px);
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+        margin: 14px 0 0;
+      }
+      .section-note {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+        max-width: 230px;
+      }
+      .memory-section {
+        background: var(--cream);
+      }
+      .loading-screen {
+        align-items: center;
+        background: var(--forest);
+        color: var(--paper);
+        display: grid;
+        inset: 0;
+        justify-items: center;
+        padding: 24px;
+        position: fixed;
+        z-index: 50;
+      }
+      .loading-screen.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.6s ease;
+        visibility: hidden;
+      }
+      .loading-card {
+        max-width: 360px;
+        text-align: center;
+      }
+      .loading-cup {
+        animation: cup-wobble 1.5s ease-in-out infinite;
+        font-size: 64px;
+        line-height: 1;
+      }
+      .loading-card h2 {
+        font: 34px var(--serif);
+        margin: 22px 0 10px;
+      }
+      .loading-card p {
+        color: #b7cdb9;
+        font: 12px var(--mono);
+        line-height: 1.7;
+      }
+      .loading-bar {
+        background: rgba(248, 246, 239, 0.18);
+        height: 4px;
+        margin: 28px auto 0;
+        max-width: 240px;
+        overflow: hidden;
+      }
+      .loading-bar span {
+        animation: load-tea 1.8s ease-in-out forwards;
+        background: var(--mint);
+        display: block;
+        height: 100%;
+        transform-origin: left;
+      }
+      @keyframes cup-wobble {
+        0%,
+        100% {
+          transform: rotate(-5deg);
+        }
+        50% {
+          transform: rotate(5deg) translateY(-5px);
+        }
+      }
+      @keyframes load-tea {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      .gallery {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .gallery figure {
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+      }
+      .gallery figure:first-child {
+        aspect-ratio: 2.38 / 1;
+        grid-column: span 2;
+      }
+      .gallery figure:not(:first-child) {
+        aspect-ratio: 1.6 / 1;
+      }
+      .gallery img {
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+        width: 100%;
+      }
+      .gallery figure:nth-child(1) img {
+        object-position: 50% 35%;
+      }
+      .gallery figure:nth-child(2) img {
+        object-position: 50% 68%;
+      }
+      .gallery figure:nth-child(3) img {
+        object-position: 50% 28%;
+      }
+      .gallery figure:nth-child(4) img {
+        object-position: 50% 72%;
+      }
+      .gallery figure:nth-child(5) img {
+        object-position: 50% 73%;
+      }
+      .gallery figure:nth-child(6) img {
+        object-position: 50% 62%;
+      }
+      .gallery figure:nth-child(7) img {
+        object-position: 50% 68%;
+      }
+      .gallery figure:nth-child(8) img {
+        object-position: 62% 58%;
+      }
+      .gallery figure:nth-child(9) img {
+        object-position: 50% 58%;
+      }
+      .gallery figure:nth-child(10) img {
+        object-position: 34% 58%;
+      }
+      .gallery figure:nth-child(11) img {
+        object-position: 50% 35%;
+      }
+      .gallery figure:hover img {
+        transform: scale(1.04);
+      }
+      .gallery figcaption {
+        background: var(--paper);
+        bottom: 12px;
+        color: var(--forest);
+        font: 10px var(--mono);
+        left: 12px;
+        padding: 7px 9px;
+        position: absolute;
+        text-transform: uppercase;
+      }
+      .reel-section {
+        background: #dce7d8;
+        overflow: hidden;
+      }
+      .reel-section .section-note {
+        color: #547064;
+      }
+      .video-reel {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+      .video-card {
+        background: var(--paper);
+        padding: 10px 10px 14px;
+        position: relative;
+      }
+      .video-card:nth-child(1),
+      .video-card:nth-child(6),
+      .video-card:nth-child(10) {
+        grid-column: span 5;
+        transform: rotate(-1.5deg);
+      }
+      .video-card:nth-child(2),
+      .video-card:nth-child(7),
+      .video-card:nth-child(11) {
+        grid-column: span 7;
+        transform: rotate(1.2deg) translateY(22px);
+      }
+      .video-card:nth-child(3),
+      .video-card:nth-child(8),
+      .video-card:nth-child(12) {
+        grid-column: span 4;
+        transform: rotate(1.5deg);
+      }
+      .video-card:nth-child(4),
+      .video-card:nth-child(9) {
+        grid-column: span 8;
+        transform: rotate(-1deg) translateY(18px);
+      }
+      .video-card video {
+        aspect-ratio: 1.35 / 1;
+        background: #203d34;
+        display: block;
+        object-fit: cover;
+        width: 100%;
+      }
+      .video-card:nth-child(3n) video {
+        aspect-ratio: 1 / 1.12;
+      }
+      .video-label {
+        color: var(--forest);
+        display: block;
+        font: 11px var(--mono);
+        letter-spacing: 0.08em;
+        margin-top: 12px;
+        text-transform: uppercase;
+      }
+      .video-tape {
+        background: var(--mint);
+        color: var(--forest);
+        font: 9px var(--mono);
+        left: 50%;
+        padding: 5px 9px;
+        position: absolute;
+        top: -9px;
+        transform: translateX(-50%) rotate(-2deg);
+        white-space: nowrap;
+      }
+      .director-player {
+        background: var(--forest);
+        box-shadow: 12px 12px 0 rgba(23, 61, 52, 0.16);
+        margin: 0 auto;
+        max-width: 820px;
+        padding: 14px;
+        transform: rotate(-1deg);
+      }
+      .director-screen {
+        background: #102b25;
+        position: relative;
+      }
+      .director-screen video {
+        aspect-ratio: 16 / 10;
+        background: #102b25;
+        display: block;
+        object-fit: contain;
+        width: 100%;
+      }
+      .scene-card {
+        background: var(--paper);
+        color: var(--forest);
+        left: 50%;
+        max-width: 82%;
+        opacity: 0;
+        padding: 14px 20px;
+        pointer-events: none;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0.92) rotate(-2deg);
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+        z-index: 2;
+      }
+      .scene-card.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(-2deg);
+      }
+      .scene-card strong {
+        display: block;
+        font: 26px var(--serif);
+      }
+      .scene-card span {
+        color: var(--leaf);
+        font: 10px var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .director-controls {
+        align-items: center;
+        color: var(--paper);
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        padding: 16px 4px 4px;
+      }
+      .director-label {
+        font: 11px var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .director-play {
+        background: var(--mint);
+        color: var(--forest);
+        font: 11px var(--mono);
+        padding: 10px 14px;
+        text-transform: uppercase;
+      }
+      .director-progress {
+        display: flex;
+        gap: 5px;
+        margin-top: 12px;
+      }
+      .director-progress span {
+        background: rgba(248, 246, 239, 0.28);
+        flex: 1;
+        height: 4px;
+        transition: background 0.2s ease;
+      }
+      .director-progress span.active {
+        background: var(--mint);
+      }
+      .notes-section {
+        background: var(--forest);
+        color: var(--paper);
+      }
+      .notes-section h2 {
+        color: var(--paper);
+      }
+      .notes-section .section-note {
+        color: #aec3b3;
+      }
+      .notes-grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .envelope {
+        background: #eff1e8;
+        color: var(--forest);
+        min-height: 285px;
+        padding: 30px;
+        position: relative;
+        transition: transform 0.25s ease;
+      }
+      .envelope:nth-child(2) {
+        transform: translateY(28px) rotate(1.5deg);
+      }
+      .envelope:nth-child(3) {
+        transform: rotate(-1.2deg);
+      }
+      .envelope:hover {
+        transform: translateY(-8px) rotate(0);
+      }
+      .envelope:before {
+        border-left: 150px solid transparent;
+        border-right: 150px solid transparent;
+        border-top: 70px solid #d7e3d4;
+        content: "";
+        left: 0;
+        position: absolute;
+        top: 0;
+        z-index: 0;
+      }
+      .envelope:after {
+        border-bottom: 1px solid rgba(23, 61, 52, 0.12);
+        bottom: 30px;
+        content: "";
+        left: 30px;
+        position: absolute;
+        right: 30px;
+      }
+      .envelope-content {
+        position: relative;
+        z-index: 1;
+      }
+      .envelope-label {
+        color: var(--leaf);
+        font: 10px var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .envelope h3 {
+        font: 27px var(--serif);
+        margin: 70px 0 0;
+      }
+      .envelope p {
+        color: #557064;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .open-note {
+        background: none;
+        color: var(--forest);
+        font: 11px var(--mono);
+        padding: 0;
+        text-transform: uppercase;
+      }
+      .note-modal {
+        background: rgba(23, 61, 52, 0.5);
+        display: none;
+        inset: 0;
+        padding: 24px;
+        place-items: center;
+        position: fixed;
+        z-index: 20;
+      }
+      .note-modal.open {
+        display: grid;
+      }
+      .birthday-popover {
+        background: rgba(23, 61, 52, 0.62);
+        display: none;
+        inset: 0;
+        padding: 24px;
+        place-items: center;
+        position: fixed;
+        z-index: 30;
+      }
+      .birthday-popover.open {
+        display: grid;
+      }
+      .birthday-card {
+        background: var(--mint);
+        box-shadow: 12px 12px 0 rgba(23, 61, 52, 0.2);
+        color: var(--forest);
+        max-width: 430px;
+        padding: 38px 32px 32px;
+        position: relative;
+        text-align: center;
+        transform: rotate(-2deg);
+      }
+      .birthday-card:before {
+        border: 1px solid var(--forest);
+        content: "";
+        inset: 10px;
+        opacity: 0.25;
+        pointer-events: none;
+        position: absolute;
+      }
+      .birthday-card > * {
+        position: relative;
+      }
+      .birthday-card .eyebrow {
+        color: var(--leaf);
+      }
+      .birthday-card h2 {
+        font: 45px var(--serif);
+        line-height: 0.95;
+        margin: 22px 0 16px;
+      }
+      .birthday-card p {
+        color: #456257;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .birthday-close {
+        background: var(--forest);
+        color: var(--paper);
+        margin-top: 16px;
+        padding: 11px 17px;
+      }
+      .note-paper {
+        background: #fffdf4;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        max-width: 480px;
+        padding: 42px 36px;
+        position: relative;
+        width: 100%;
+      }
+      .note-paper:before {
+        border: 1px solid var(--line);
+        content: "";
+        inset: 12px;
+        pointer-events: none;
+        position: absolute;
+      }
+      .note-paper h3,
+      .note-paper p,
+      .note-paper button {
+        position: relative;
+      }
+      .note-paper h3 {
+        font: 32px var(--serif);
+        margin: 0 0 18px;
+      }
+      .note-paper p {
+        color: #53635a;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .close-note {
+        background: var(--forest);
+        color: var(--paper);
+        margin-top: 16px;
+        padding: 10px 15px;
+      }
+      .playlist-section {
+        background: var(--paper);
+      }
+      .playlist-layout {
+        align-items: start;
+        display: grid;
+        gap: 80px;
+        grid-template-columns: 0.8fr 1.2fr;
+      }
+      .album-card {
+        background: var(--mint);
+        padding: 18px 18px 23px;
+        transform: rotate(-2deg);
+      }
+      .album-card img {
+        aspect-ratio: 1;
+        object-fit: cover;
+        width: 100%;
+      }
+      .album-card p {
+        color: var(--forest);
+        font: 12px var(--mono);
+        line-height: 1.5;
+        margin: 18px 0 0;
+      }
+      .track-list {
+        border-top: 1px solid var(--line);
+      }
+      .track {
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 34px 1fr auto;
+        padding: 17px 0;
+      }
+      .track-number {
+        color: var(--muted);
+        font: 11px var(--mono);
+      }
+      .track-title {
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .track-artist {
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 4px;
+      }
+      .play-button {
+        align-items: center;
+        background: var(--mint);
+        border-radius: 50%;
+        color: var(--forest);
+        display: flex;
+        font-size: 14px;
+        height: 34px;
+        justify-content: center;
+        width: 34px;
+      }
+      .track.playing .play-button {
+        background: var(--forest);
+        color: var(--paper);
+      }
+      .track.playing .track-title {
+        color: var(--leaf);
+      }
+      .letter-section {
+        background: #dce7d8;
+        padding: 150px 0;
+      }
+      .letter-wrap {
+        margin: auto;
+        max-width: 760px;
+      }
+      .letter-paper {
+        background: #fffdf4;
+        box-shadow: 12px 12px 0 rgba(23, 61, 52, 0.13);
+        padding: clamp(32px, 7vw, 78px);
+        position: relative;
+      }
+      .letter-paper:before {
+        background: repeating-linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 31px,
+          rgba(71, 122, 93, 0.13) 32px
+        );
+        content: "";
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
+      }
+      .letter-inner {
+        position: relative;
+      }
+      .letter-top {
+        align-items: start;
+        display: flex;
+        justify-content: space-between;
+      }
+      .letter-stamp {
+        border: 1px solid var(--leaf);
+        color: var(--leaf);
+        font: 10px var(--mono);
+        padding: 9px;
+        text-align: center;
+        transform: rotate(7deg);
+      }
+      .letter-paper h2 {
+        color: var(--forest);
+        font: clamp(42px, 7vw, 75px) var(--serif);
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+        margin: 46px 0 28px;
+      }
+      .typed-text {
+        color: #43564a;
+        font-size: 15px;
+        line-height: 2;
+        min-height: 150px;
+        white-space: pre-line;
+      }
+      .typed-text:after {
+        animation: blink 1s steps(2) infinite;
+        color: var(--leaf);
+        content: "|";
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .letter-sign {
+        color: var(--forest);
+        font: 22px var(--serif);
+        margin-top: 26px;
+      }
+      .footer {
+        background: var(--forest);
+        color: #b7cdb9;
+        font: 10px var(--mono);
+        letter-spacing: 0.1em;
+        padding: 25px 0;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      @media (max-width: 720px) {
+        .wrap {
+          width: min(100% - 36px, 520px);
+        }
+        .topbar {
+          padding: 18px 0;
+        }
+        .hero {
+          min-height: auto;
+        }
+        .hero-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          min-height: auto;
+        }
+        .hero-copy {
+          padding: 80px 0 20px;
+        }
+        .hero h1 {
+          font-size: clamp(68px, 20vw, 108px);
+        }
+        .hero-intro {
+          max-width: 295px;
+        }
+        .scroll-cue {
+          margin-top: 45px;
+        }
+        .hero-photo {
+          align-self: end;
+          height: 420px;
+          margin: 0 13px 62px 0;
+          width: calc(100% - 20px);
+        }
+        .section {
+          padding: 86px 0;
+        }
+        .section-head {
+          align-items: start;
+          display: block;
+          margin-bottom: 34px;
+        }
+        .section-note {
+          margin-top: 20px;
+        }
+        .gallery {
+          gap: 8px;
+          grid-template-columns: 1fr 1fr;
+        }
+        .gallery figure:first-child {
+          grid-column: span 2;
+        }
+        .gallery figcaption {
+          bottom: 7px;
+          left: 7px;
+        }
+        .video-reel {
+          display: block;
+        }
+        .video-card,
+        .video-card:nth-child(n) {
+          margin-bottom: 24px;
+          transform: none;
+        }
+        .director-player {
+          margin-top: 10px;
+          padding: 8px;
+        }
+        .director-controls {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .director-play {
+          width: 100%;
+        }
+        .video-card:nth-child(3n) video,
+        .video-card video {
+          aspect-ratio: 1.35 / 1;
+        }
+        .notes-grid {
+          display: block;
+        }
+        .envelope {
+          margin-bottom: 18px;
+          min-height: 240px;
+        }
+        .envelope:nth-child(2),
+        .envelope:nth-child(3) {
+          transform: none;
+        }
+        .envelope h3 {
+          margin-top: 55px;
+        }
+        .playlist-layout {
+          display: block;
+        }
+        .album-card {
+          margin: 0 auto 60px;
+          max-width: 250px;
+        }
+        .track {
+          gap: 10px;
+          grid-template-columns: 25px 1fr auto;
+        }
+        .letter-section {
+          padding: 90px 0;
+        }
+        .letter-paper {
+          padding: 34px 24px;
+        }
+        .letter-paper h2 {
+          margin-top: 35px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-screen" id="loadingScreen" aria-live="polite">
+      <div class="loading-card">
+        <div class="loading-cup" aria-hidden="true">🍵</div>
+        <div class="eyebrow" style="color: #9fc3a5">
+          Please Wait / Important Tea Business
+        </div>
+        <h2>Brewing Nik's birthday...</h2>
+        <p>
+          Checking the vibes. Fluffing the digital confetti. Hiding the
+          presents.
+        </p>
+        <div class="loading-bar" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <header class="hero" id="top">
+      <div class="wrap">
+        <nav class="topbar">
+          <a class="brand" href="#top"
+            ><span class="brand-mark">N</span> a little something</a
+          ><a class="topbar-link" href="#playlist">Soundtrack ↓</a>
+        </nav>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">A birthday note / 2026</div>
+            <h1 class="serif">Happy<br /><em>22nd, Nik.</em></h1>
+            <p class="hero-intro">
+              A little something I learned throughout my sem break for my
+              favourite person :p.
+            </p>
+            <div class="scroll-cue">keep scrolling, birthday boy</div>
+          </div>
+          <div class="hero-photo">
+            <img
+              src="../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.59 AM (1).jpeg"
+              alt="Nik and his favourite people"
+            />
+            <div></div>
+            <div class="photo-caption">
+              we're a lil here and there for 2 years?!
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="section memory-section" id="memories">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">The little archive</div>
+              <h2 class="serif">Some of<br />my favourites.</h2>
+            </div>
+            <p class="section-note">
+              A few frames from the many things we did. A tiny archive of us,
+              arranged like a little photo wall.
+            </p>
+          </div>
+          <div class="gallery" id="gallery">
+            <figure>
+              <img
+                src="../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.59 AM (2).jpeg"
+                alt="A memory together"
+              />
+              <figcaption>our kind of day (without the gaduh)</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 1.18.56 AM (4).jpeg"
+                alt="Nik smiling"
+              />
+              <figcaption>nik, naturally</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.58 AM (2).jpeg"
+                alt="A memory together"
+              />
+              <figcaption>dekan yeyey</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 1.18.55 AM (1).jpeg"
+                alt="Nik in a happy moment"
+              />
+              <figcaption>monkey energy</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.13.34 AM.jpeg"
+                alt="Nik posing at sunset"
+              />
+              <figcaption>biceps wowo</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.13.34 AM (1).jpeg"
+                alt="Nik in a white outfit"
+              />
+              <figcaption>looking very handsome mhm</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.13.35 AM (1).jpeg"
+                alt="A teddy bear by the window"
+              />
+              <figcaption>professor nik</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.13.35 AM (2).jpeg"
+                alt="Nik at a whiteboard"
+              />
+              <figcaption>biceps lagi</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.13.35 AM.jpeg"
+                alt="Nik hiking in the mist"
+              />
+              <figcaption>my baby, bobby</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.13.36 AM.jpeg"
+                alt="Nik holding a hiking sign"
+              />
+              <figcaption>proof of a good day</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="../pictures/him/WhatsApp Image 2026-09-16 at 2.19.56 AM.jpeg"
+                alt="Nik at CHAGEE"
+              />
+              <figcaption>chagee boy forever</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section class="section reel-section" id="reel">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Now showing / absolutely no acting</div>
+              <h2 class="serif">The Nik<br />cinematic universe.</h2>
+            </div>
+            <p class="section-note">
+              A moving-picture archive of one very handsome, very unserious
+              birthday boy.
+            </p>
+          </div>
+          <div class="director-player">
+            <div class="director-screen">
+              <video
+                id="directorVideo"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
+              <div class="scene-card" id="sceneCard">
+                <span>now screening</span
+                ><strong id="sceneTitle">The Nik cut</strong>
+              </div>
+            </div>
+            <div class="director-controls">
+              <span class="director-label" id="directorLabel"
+                >Scene 01 / the opening scene</span
+              >
+              <button class="director-play" id="directorPlay">
+                Play the movie ▶
+              </button>
+            </div>
+            <div
+              class="director-progress"
+              id="directorProgress"
+              aria-label="Movie progress"
+            ></div>
+          </div>
+        </div>
+      </section>
+      <section class="section notes-section" id="notes">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow" style="color: #9fc3a5">Open when ready</div>
+              <h2 class="serif">Three little<br />things.</h2>
+            </div>
+            <p class="section-note">
+              Pick an envelope. There is no correct order, although I have my
+              favourites.
+            </p>
+          </div>
+          <div class="notes-grid">
+            <article class="envelope">
+              <div class="envelope-content">
+                <div class="envelope-label">letter 01 / appreciation</div>
+                <h3>For the way<br />you care.</h3>
+                <p>You make ordinary days feel better.</p>
+                <button class="open-note" data-note="care">open note →</button>
+              </div>
+            </article>
+            <article class="envelope">
+              <div class="envelope-content">
+                <div class="envelope-label">letter 02 / reminder</div>
+                <h3>For the days<br />you forget.</h3>
+                <p>A small reminder from someone who always bebel at you.</p>
+                <button class="open-note" data-note="reminder">
+                  open note →
+                </button>
+              </div>
+            </article>
+            <article class="envelope">
+              <div class="envelope-content">
+                <div class="envelope-label">letter 03 / wish</div>
+                <h3>For the year<br />ahead.</h3>
+                <p>Some hopes for when I'm not there.</p>
+                <button class="open-note" data-note="wish">open note →</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section playlist-section" id="playlist">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Press play</div>
+              <h2 class="serif">Our little<br />soundtrack.</h2>
+            </div>
+            <p class="section-note">
+              For late drives, quiet rooms, and every in-between kind of
+              feeling.
+            </p>
+          </div>
+          <div class="playlist-layout">
+            <div class="album-card">
+              <img
+                src="../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.58 AM (3).jpeg"
+                alt="Nik and me"
+              />
+              <p>nik's birthday mix<br />10 songs / many feelings</p>
+            </div>
+            <div class="track-list" id="trackList">
+              <div
+                class="track"
+                data-src="../song/Insomniacks - Sempurna (Official Lyric Video).mp3"
+              >
+                <span class="track-number">01</span>
+                <div>
+                  <div class="track-title">Sempurna</div>
+                  <div class="track-artist">Insomniacks</div>
+                </div>
+                <button class="play-button" aria-label="Play Sempurna">
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/Nadhif Basalamah - bergema sampai selamanya (Official Lyric Video).mp3"
+              >
+                <span class="track-number">02</span>
+                <div>
+                  <div class="track-title">bergema sampai selamanya</div>
+                  <div class="track-artist">Nadhif Basalamah</div>
+                </div>
+                <button
+                  class="play-button"
+                  aria-label="Play bergema sampai selamanya"
+                >
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/Masa ini, Nanti, dan Masa Indah Lainnya.mp3"
+              >
+                <span class="track-number">03</span>
+                <div>
+                  <div class="track-title">
+                    Masa ini, Nanti, dan Masa Indah Lainnya
+                  </div>
+                  <div class="track-artist">A song for all our tomorrows</div>
+                </div>
+                <button class="play-button" aria-label="Play Masa ini">
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/Nadhif Basalamah - Kota Ini Tak Sama Tanpamu (Official Music Video Lyric).mp3"
+              >
+                <span class="track-number">04</span>
+                <div>
+                  <div class="track-title">Kota Ini Tak Sama Tanpamu</div>
+                  <div class="track-artist">Nadhif Basalamah</div>
+                </div>
+                <button
+                  class="play-button"
+                  aria-label="Play Kota Ini Tak Sama Tanpamu"
+                >
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/The Script - The Man Who Cant Be Moved (Lyrics).mp3"
+              >
+                <span class="track-number">05</span>
+                <div>
+                  <div class="track-title">The Man Who Can't Be Moved</div>
+                  <div class="track-artist">The Script</div>
+                </div>
+                <button
+                  class="play-button"
+                  aria-label="Play The Man Who Can't Be Moved"
+                >
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/The 1975 - About You (Official).mp3"
+              >
+                <span class="track-number">06</span>
+                <div>
+                  <div class="track-title">About You</div>
+                  <div class="track-artist">The 1975</div>
+                </div>
+                <button class="play-button" aria-label="Play About You">
+                  ▶
+                </button>
+              </div>
+              <div class="track" data-src="../song/Reminisensi.mp3">
+                <span class="track-number">07</span>
+                <div>
+                  <div class="track-title">Reminisensi</div>
+                  <div class="track-artist">A song for remembering</div>
+                </div>
+                <button class="play-button" aria-label="Play Reminisensi">
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/Rahsia Tuhan - Noh Salleh (lyrics).mp3"
+              >
+                <span class="track-number">08</span>
+                <div>
+                  <div class="track-title">Rahsia Tuhan</div>
+                  <div class="track-artist">Noh Salleh</div>
+                </div>
+                <button class="play-button" aria-label="Play Rahsia Tuhan">
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/Pamungkas - To The Bone (Official Music Video).mp3"
+              >
+                <span class="track-number">09</span>
+                <div>
+                  <div class="track-title">To The Bone</div>
+                  <div class="track-artist">Pamungkas</div>
+                </div>
+                <button class="play-button" aria-label="Play To The Bone">
+                  ▶
+                </button>
+              </div>
+              <div
+                class="track"
+                data-src="../song/Overnight - Kita Lewati Berdua (Official Audio).mp3"
+              >
+                <span class="track-number">10</span>
+                <div>
+                  <div class="track-title">Kita Lewati Berdua</div>
+                  <div class="track-artist">Overnight</div>
+                </div>
+                <button
+                  class="play-button"
+                  aria-label="Play Kita Lewati Berdua"
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="letter-section" id="letter">
+        <div class="wrap letter-wrap">
+          <div class="letter-paper">
+            <div class="letter-inner">
+              <div class="letter-top">
+                <div class="eyebrow">A letter, finally</div>
+                <div class="letter-stamp">N<br />22</div>
+              </div>
+              <h2 class="serif">Dear Nik,</h2>
+              <div class="typed-text" id="typedText" aria-live="polite"></div>
+              <div class="letter-sign">
+                Always yours, <em>your favourite girl, Ery</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      made with love & a little bit of tea · happy birthday, nik
+    </footer>
+    <div
+      class="note-modal"
+      id="noteModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="note-paper">
+        <h3 class="serif" id="modalTitle"></h3>
+        <p id="modalCopy"></p>
+        <button class="close-note">Close Letter</button>
+      </div>
+    </div>
+    <div
+      class="birthday-popover open"
+      id="birthdayPopover"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="birthdayTitle"
+    >
+      <div class="birthday-card">
+        <div class="eyebrow">incoming message / for Nik only</div>
+        <h2 id="birthdayTitle">Psst... birthday boy?</h2>
+        <p>
+          You have mail. Also cake. Also a whole website made by someone who
+          thinks you're very cute.
+        </p>
+        <button class="birthday-close" id="birthdayClose">
+          Open my surprise
+        </button>
+      </div>
+    </div>
+    <script>
+      const loadingScreen = document.querySelector("#loadingScreen");
+      const birthdayPopover = document.querySelector("#birthdayPopover");
+      const birthdayClose = document.querySelector("#birthdayClose");
+      const revealPage = () => loadingScreen.classList.add("is-hidden");
+      setTimeout(revealPage, 2200);
+      window.addEventListener("load", () => setTimeout(revealPage, 900));
+      birthdayClose.addEventListener("click", () =>
+        birthdayPopover.classList.remove("open"),
+      );
+      birthdayPopover.addEventListener("click", (event) => {
+        if (event.target === birthdayPopover)
+          birthdayPopover.classList.remove("open");
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") birthdayPopover.classList.remove("open");
+      });
+      document.addEventListener("click", (event) => {
+        if (event.target.closest("#birthdayClose")) {
+          birthdayPopover.classList.remove("open");
+        }
+      });
+      const film = [
+        ["WhatsApp Video 2026-09-16 at 2.43.24 AM.mp4", "the opening scene"],
+        ["WhatsApp Video 2026-09-16 at 2.45.15 AM.mp4", "caught being cute"],
+        ["WhatsApp Video 2026-09-16 at 2.45.17 AM.mp4", "tiny main character"],
+        ["WhatsApp Video 2026-09-16 at 2.45.18 AM.mp4", "the plot thickens"],
+        ["WhatsApp Video 2026-09-16 at 2.47.42 AM.mp4", "nik being nik"],
+        ["WhatsApp Video 2026-09-16 at 2.49.12 AM.mp4", "director's favourite"],
+        ["WhatsApp Video 2026-09-16 at 2.49.13 AM.mp4", "a very good day"],
+        ["WhatsApp Video 2026-09-16 at 2.49.15 AM.mp4", "soft launch"],
+        ["WhatsApp Video 2026-09-16 at 2.51.47 AM.mp4", "scenes from us"],
+        ["WhatsApp Video 2026-09-16 at 2.51.50 AM.mp4", "the comedy special"],
+        ["WhatsApp Video 2026-09-16 at 2.51.55 AM (1).mp4", "bonus footage"],
+        ["WhatsApp Video 2026-09-16 at 2.51.55 AM.mp4", "to be continued"],
+      ];
+      const directorVideo = document.querySelector("#directorVideo");
+      const directorPlay = document.querySelector("#directorPlay");
+      const directorLabel = document.querySelector("#directorLabel");
+      const sceneCard = document.querySelector("#sceneCard");
+      const sceneTitle = document.querySelector("#sceneTitle");
+      const directorProgress = document.querySelector("#directorProgress");
+      let filmIndex = 0;
+      film.forEach((_, index) => {
+        const marker = document.createElement("span");
+        if (index === 0) marker.classList.add("active");
+        directorProgress.appendChild(marker);
+      });
+      function loadScene(index) {
+        filmIndex = index;
+        directorVideo.src = `../videos/${film[index][0]}`;
+        directorVideo.load();
+        directorLabel.textContent = `Scene ${String(index + 1).padStart(2, "0")} / ${film[index][1]}`;
+        directorProgress
+          .querySelectorAll("span")
+          .forEach((marker, markerIndex) =>
+            marker.classList.toggle("active", markerIndex === index),
+          );
+      }
+      function showSceneCard(title, callback) {
+        sceneTitle.textContent = title;
+        sceneCard.classList.add("show");
+        setTimeout(() => {
+          sceneCard.classList.remove("show");
+          if (callback) callback();
+        }, 850);
+      }
+      loadScene(0);
+      directorPlay.addEventListener("click", () => {
+        if (directorVideo.paused) {
+          directorVideo.play();
+          directorPlay.textContent = "Pause the movie II";
+        } else {
+          directorVideo.pause();
+          directorPlay.textContent = "Resume the movie ▶";
+        }
+      });
+      directorVideo.addEventListener("play", () => {
+        directorPlay.textContent = "Pause the movie II";
+      });
+      directorVideo.addEventListener("pause", () => {
+        directorPlay.textContent = "Resume the movie ▶";
+      });
+      directorVideo.addEventListener("ended", () => {
+        if (filmIndex >= film.length - 1) {
+          showSceneCard("fin. nik is still cute.", () => loadScene(0));
+          directorPlay.textContent = "Replay the movie ▶";
+          return;
+        }
+        const nextIndex = filmIndex + 1;
+        showSceneCard(film[nextIndex][1], () => {
+          loadScene(nextIndex);
+          directorVideo.play();
+        });
+      });
+      const noteContent = {
+        care: {
+          title: "You make things bearable.",
+          copy: "Thank you for the quiet ways you care: the check-ins, the small jokes, the way you make room for me. You are good in a way that feels like home, and I hope you know how much I notice.",
+        },
+        reminder: {
+          title: "You are doing enough.",
+          copy: "On the days when everything feels a little too loud, remember that you do not have to earn rest or prove your worth. You are already loved, already enough, and very much allowed to take the scenic route.",
+        },
+        wish: {
+          title: "For your 22nd year.",
+          copy: "I hope this year brings you more of the things that make you light up: good tea, good songs, brave choices, and plenty of reasons to laugh until your cheeks hurt. I will be cheering beside you.",
+        },
+      };
+      const modal = document.querySelector("#noteModal");
+      document.querySelectorAll(".open-note").forEach((button) =>
+        button.addEventListener("click", () => {
+          const note = noteContent[button.dataset.note];
+          document.querySelector("#modalTitle").textContent = note.title;
+          document.querySelector("#modalCopy").textContent = note.copy;
+          modal.classList.add("open");
+        }),
+      );
+      document
+        .querySelector(".close-note")
+        .addEventListener("click", () => modal.classList.remove("open"));
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) modal.classList.remove("open");
+      });
+      const soundtrackLink = document.querySelector(".topbar-link");
+      soundtrackLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        document.querySelector("#playlist").scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        history.replaceState(null, "", "#playlist");
+      });
+      const audio = new Audio();
+      const tracks = [...document.querySelectorAll(".track")];
+      let activeTrack;
+      function markTrack(track) {
+        tracks.forEach((item) => {
+          item.classList.toggle("playing", item === track);
+          item.querySelector(".play-button").textContent =
+            item === track ? "Ⅱ" : "▶";
+        });
+      }
+      function playTrack(track) {
+        activeTrack = track;
+        audio.src = track.dataset.src;
+        audio.load();
+        markTrack(track);
+        const attempt = audio.play();
+        if (attempt) attempt.catch(() => markTrack(null));
+      }
+      function startPlaylist() {
+        playTrack(activeTrack || tracks[0]);
+      }
+      birthdayClose.addEventListener("click", startPlaylist);
+      document.addEventListener("pointerdown", startPlaylist, { once: true });
+      tracks.forEach((track) =>
+        track.querySelector(".play-button").addEventListener("click", () => {
+          if (activeTrack === track && !audio.paused) {
+            audio.pause();
+            markTrack(null);
+            return;
+          }
+          playTrack(track);
+        }),
+      );
+      audio.addEventListener("ended", () => {
+        const nextIndex = activeTrack ? tracks.indexOf(activeTrack) + 1 : 0;
+        if (nextIndex < tracks.length) playTrack(tracks[nextIndex]);
+        else markTrack(null);
+      });
+      playTrack(tracks[0]);
+      const letter =
+        "Happy birthday to my favourite person. You're old! Thank you for being the kind of person who makes life feel lighter, funnier, and a little more like an adventure. I love all the ordinary and crazy moments with you most. Though all the arguments and all, I hope on trying my best to stay with you, and hoping you would do the same too. Here's to being 22 (old), and to every cup of Chagee and little life we have left to share. Hoping we could share more years together.";
+      const typedText = document.querySelector("#typedText");
+      let typeIndex = 0;
+      function typeLetter() {
+        if (typeIndex < letter.length) {
+          typedText.textContent += letter[typeIndex];
+          typeIndex += 1;
+          setTimeout(typeLetter, 28);
+        }
+      }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            typeLetter();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.45 },
+      );
+      observer.observe(typedText);
+    </script>
+  </body>
+</html>

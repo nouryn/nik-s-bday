@@ -817,6 +817,279 @@
         font: 22px var(--serif);
         margin-top: 26px;
       }
+      .extra-section {
+        background: var(--paper);
+      }
+      .order-layout,
+      .quiz-layout,
+      .promise-layout {
+        display: grid;
+        gap: 32px;
+        grid-template-columns: 0.85fr 1.15fr;
+      }
+      .order-ticket,
+      .quiz-card,
+      .promise-list {
+        background: var(--mint);
+        padding: 30px;
+      }
+      .order-ticket {
+        transform: rotate(-2deg);
+      }
+      .order-ticket h3,
+      .quiz-card h3 {
+        color: var(--forest);
+        font: 34px var(--serif);
+        margin: 16px 0;
+      }
+      .order-ticket p,
+      .quiz-card p,
+      .promise-list p {
+        color: #456257;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .order-lines {
+        border-top: 1px solid rgba(23, 61, 52, 0.2);
+        margin-top: 22px;
+      }
+      .order-line {
+        border-bottom: 1px solid rgba(23, 61, 52, 0.2);
+        display: flex;
+        font: 12px var(--mono);
+        justify-content: space-between;
+        padding: 13px 0;
+      }
+      .order-line strong {
+        color: var(--leaf);
+      }
+      .quiz-question {
+        border-bottom: 1px solid var(--line);
+        color: var(--forest);
+        font: 22px var(--serif);
+        padding-bottom: 18px;
+      }
+      .quiz-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .quiz-option,
+      .quiz-next,
+      .yes-button {
+        background: var(--forest);
+        color: var(--paper);
+        padding: 11px 15px;
+      }
+      .quiz-option.selected {
+        background: var(--leaf);
+      }
+      .quiz-result {
+        color: var(--leaf);
+        font: 12px var(--mono);
+        min-height: 36px;
+        padding-top: 18px;
+      }
+      .promise-list {
+        background: var(--cream);
+      }
+      .promise-item {
+        align-items: baseline;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        gap: 15px;
+        padding: 16px 0;
+      }
+      .promise-item:last-child {
+        border-bottom: 0;
+      }
+      .promise-number {
+        color: var(--leaf);
+        font: 11px var(--mono);
+      }
+      .promise-item strong {
+        color: var(--forest);
+        font: 24px var(--serif);
+      }
+      .ticker-section {
+        background: var(--forest);
+        color: var(--paper);
+        overflow: hidden;
+      }
+      .ticker-line {
+        align-items: center;
+        display: flex;
+        gap: 22px;
+        justify-content: center;
+        min-height: 110px;
+        text-align: center;
+      }
+      .ticker-line span {
+        color: var(--mint);
+        font: 32px var(--serif);
+      }
+      .ticker-line small {
+        color: #aec3b3;
+        font: 10px var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .photobooth-section {
+        background: #f3e5c8;
+      }
+      .booth-layout {
+        align-items: center;
+        display: grid;
+        gap: 50px;
+        grid-template-columns: 0.75fr 1.25fr;
+      }
+      .booth-stage {
+        background: var(--forest);
+        padding: 14px;
+        transform: rotate(-2deg);
+      }
+      .booth-camera {
+        aspect-ratio: 3 / 4;
+        background: #122e27;
+        overflow: hidden;
+        position: relative;
+      }
+      .booth-camera video {
+        height: 100%;
+        object-fit: cover;
+        transform: scaleX(-1);
+        width: 100%;
+      }
+      .booth-placeholder {
+        align-items: center;
+        color: var(--mint);
+        display: grid;
+        inset: 0;
+        padding: 24px;
+        place-items: center;
+        position: absolute;
+        text-align: center;
+      }
+      .booth-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 14px;
+      }
+      .booth-button {
+        background: var(--mint);
+        color: var(--forest);
+        padding: 10px 13px;
+      }
+      .booth-button.primary {
+        background: var(--forest);
+        color: var(--paper);
+      }
+      .frame-choices {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+        overflow-x: auto;
+        padding: 3px;
+      }
+      .frame-choice {
+        background: var(--paper);
+        border: 2px solid transparent;
+        flex: 0 0 50px;
+        height: 70px;
+        overflow: hidden;
+        padding: 0;
+      }
+      .frame-choice.selected {
+        border-color: var(--forest);
+      }
+      .frame-choice img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+      .booth-copy h3 {
+        color: var(--forest);
+        font: 43px var(--serif);
+        line-height: 0.95;
+        margin: 15px 0;
+      }
+      .booth-copy p {
+        color: #5a6653;
+        font-size: 13px;
+        line-height: 1.7;
+        max-width: 360px;
+      }
+      .love-modal {
+        background: rgba(23, 61, 52, 0.65);
+        display: none;
+        inset: 0;
+        place-items: center;
+        padding: 24px;
+        position: fixed;
+        z-index: 35;
+      }
+      .love-modal.open {
+        display: grid;
+      }
+      .love-card {
+        background: #fffdf4;
+        box-shadow: 10px 10px 0 rgba(23, 61, 52, 0.2);
+        max-width: 390px;
+        padding: 42px 32px;
+        position: relative;
+        text-align: center;
+        width: 100%;
+      }
+      .love-card h2 {
+        color: var(--forest);
+        font: 48px var(--serif);
+        line-height: 0.9;
+        margin: 18px 0;
+      }
+      .love-card p {
+        color: #557064;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .love-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 22px;
+      }
+      .no-button {
+        background: #e5e6dc;
+        color: #66746c;
+        padding: 11px 20px;
+        position: relative;
+        transition: transform 0.12s ease;
+      }
+      .yes-button {
+        padding: 11px 22px;
+      }
+      .hidden-note {
+        display: none;
+      }
+      .hidden-note.open {
+        display: block;
+      }
+      .confetti-piece {
+        animation: confetti-fall 1.8s ease-out forwards;
+        background: var(--mint);
+        height: 10px;
+        position: fixed;
+        top: -15px;
+        width: 7px;
+        z-index: 60;
+      }
+      @keyframes confetti-fall {
+        to {
+          opacity: 0;
+          transform: translateY(105vh) rotate(720deg);
+        }
+      }
       .footer {
         background: var(--forest);
         color: #b7cdb9;
@@ -933,6 +1206,27 @@
         }
         .letter-section {
           padding: 90px 0;
+        }
+        .order-layout,
+        .quiz-layout,
+        .promise-layout,
+        .booth-layout {
+          display: block;
+        }
+        .order-ticket,
+        .quiz-card,
+        .promise-list,
+        .booth-stage {
+          margin-bottom: 28px;
+        }
+        .ticker-line {
+          min-height: 130px;
+        }
+        .ticker-line span {
+          font-size: 26px;
+        }
+        .booth-copy h3 {
+          font-size: 42px;
         }
         .letter-paper {
           padding: 34px 24px;
@@ -1332,6 +1626,209 @@
           </div>
         </div>
       </section>
+      <section class="section extra-section" id="order">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">A very official investigation</div>
+              <h2 class="serif">Nik's CHAGEE<br />order.</h2>
+            </div>
+            <p class="section-note">
+              Documented for future generations and anyone who needs to know
+              what makes this boy happy.
+            </p>
+          </div>
+          <div class="order-layout">
+            <div class="order-ticket">
+              <div class="eyebrow">customer profile / birthday edition</div>
+              <h3>Tea, but make it Nik.</h3>
+              <p>
+                One order, carefully studied. The answer is always “yes, let's
+                get CHAGEE.”
+              </p>
+              <div class="order-lines">
+                <div class="order-line">
+                  <span>usual mood</span><strong>happy-ish</strong>
+                </div>
+                <div class="order-line">
+                  <span>tea loyalty</span><strong>100%</strong>
+                </div>
+                <div class="order-line">
+                  <span>birthday age</span><strong>22 (old)</strong>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-card">
+              <div class="eyebrow">Question 01 / no cheating</div>
+              <div class="quiz-question" id="quizQuestion">
+                Who is more likely to start an argument over something tiny?
+              </div>
+              <div class="quiz-options">
+                <button class="quiz-option" data-answer="me">
+                  you, obviously</button
+                ><button class="quiz-option" data-answer="you">
+                  me, unfortunately</button
+                ><button class="quiz-option" data-answer="both">
+                  both of us, actually
+                </button>
+              </div>
+              <div class="quiz-result" id="quizResult"></div>
+              <button class="quiz-next" id="quizNext">next question →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section promise-section" id="promises">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Terms & conditions</div>
+              <h2 class="serif">A few promises<br />for 22.</h2>
+            </div>
+            <p class="section-note">
+              Small-print promises. Very serious. Legally binding in the court
+              of my heart.
+            </p>
+          </div>
+          <div class="promise-layout">
+            <div class="promise-list">
+              <div class="promise-item">
+                <span class="promise-number">01</span
+                ><strong>More late-night drives.</strong>
+              </div>
+              <div class="promise-item">
+                <span class="promise-number">02</span
+                ><strong>More food trips with no plan.</strong>
+              </div>
+              <div class="promise-item">
+                <span class="promise-number">03</span
+                ><strong>More choosing each other.</strong>
+              </div>
+              <p>
+                Valid forever. No expiry date. Cannot be exchanged for store
+                credit.
+              </p>
+            </div>
+            <div class="letter-paper">
+              <div class="letter-inner">
+                <div class="eyebrow">a tiny forecast</div>
+                <h3
+                  class="serif"
+                  style="
+                    color: var(--forest);
+                    font-size: 38px;
+                    margin: 25px 0 15px;
+                  "
+                >
+                  This year looks good on you.
+                </h3>
+                <p class="typed-text" style="min-height: auto">
+                  There will be good days, weird days, big decisions, small
+                  wins, and at least one more CHAGEE run. I want to be there for
+                  all of it.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="ticker-section">
+        <div class="wrap">
+          <div class="ticker-line">
+            <small>one of my favourite things about you is</small
+            ><span id="reasonTicker">the way you make me laugh</span>
+          </div>
+        </div>
+      </section>
+      <section class="section photobooth-section" id="photobooth">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">live from our silly little studio</div>
+              <h2 class="serif">Make a tiny<br />memory.</h2>
+            </div>
+            <p class="section-note">
+              Allow camera access, strike a pose, and save your official
+              birthday photobooth strip.
+            </p>
+          </div>
+          <div class="booth-layout">
+            <div class="booth-stage">
+              <div class="booth-camera">
+                <video id="boothVideo" autoplay muted playsinline></video
+                ><canvas id="boothCanvas" hidden></canvas>
+                <div class="booth-placeholder" id="boothPlaceholder">
+                  your camera will appear here<br />probably looking very cute
+                </div>
+              </div>
+              <div class="booth-controls">
+                <button class="booth-button primary" id="boothStart">
+                  turn camera on</button
+                ><button class="booth-button" id="boothSnap">take strip</button
+                ><a
+                  class="booth-button"
+                  id="boothSave"
+                  hidden
+                  download="nik-birthday-strip.png"
+                  >save strip</a
+                >
+              </div>
+              <div class="frame-choices" id="frameChoices">
+                <button
+                  class="frame-choice selected"
+                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg"
+                >
+                  <img
+                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg"
+                    alt="Plain green hills frame"
+                  /></button
+                ><button
+                  class="frame-choice"
+                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (1).jpeg"
+                >
+                  <img
+                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (1).jpeg"
+                    alt="Pink birthday frame"
+                  /></button
+                ><button
+                  class="frame-choice"
+                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM.jpeg"
+                >
+                  <img
+                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM.jpeg"
+                    alt="Cute animal frame"
+                  /></button
+                ><button
+                  class="frame-choice"
+                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM (1).jpeg"
+                >
+                  <img
+                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM (1).jpeg"
+                    alt="Film frame"
+                  /></button
+                ><button
+                  class="frame-choice"
+                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (2).jpeg"
+                >
+                  <img
+                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (2).jpeg"
+                    alt="Polka dot frame"
+                  />
+                </button>
+              </div>
+            </div>
+            <div class="booth-copy">
+              <div class="eyebrow">director's note</div>
+              <h3>Proof that we<br />were here.</h3>
+              <p>
+                The camera is shy at first. Give it permission, pick a frame,
+                then press “take strip.” Your saved PNG is yours to keep, send,
+                or use as evidence that you looked adorable today.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="letter-section" id="letter">
         <div class="wrap letter-wrap">
           <div class="letter-paper">
@@ -1345,6 +1842,13 @@
               <div class="letter-sign">
                 Always yours, <em>your favourite girl, Ery</em>
               </div>
+              <button
+                class="yes-button"
+                id="loveButton"
+                style="margin-top: 24px"
+              >
+                click me, important question →
+              </button>
             </div>
           </div>
         </div>
@@ -1385,6 +1889,46 @@
         </button>
       </div>
     </div>
+    <div
+      class="love-modal"
+      id="loveModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loveTitle"
+    >
+      <div class="love-card">
+        <div class="eyebrow">final exam / no pressure</div>
+        <h2 id="loveTitle">Do you love me?</h2>
+        <p>
+          Choose carefully, birthday boy. There is definitely a correct answer.
+        </p>
+        <div class="love-actions">
+          <button class="yes-button" id="yesButton">yes, of course</button
+          ><button class="no-button" id="noButton">no</button>
+        </div>
+        <p class="hidden-note" id="loveNote">
+          I knew it. Happy birthday, sayang. You are stuck with me forever.
+        </p>
+      </div>
+    </div>
+    <p
+      class="hidden-note"
+      id="hiddenNote"
+      style="
+        background: var(--mint);
+        color: var(--forest);
+        font: 12px var(--mono);
+        left: 50%;
+        padding: 12px 16px;
+        position: fixed;
+        text-align: center;
+        top: 22px;
+        transform: translateX(-50%);
+        z-index: 40;
+      "
+    >
+      secret unlocked: Nik is legally required to receive a CHAGEE.
+    </p>
     <script>
       const loadingScreen = document.querySelector("#loadingScreen");
       const birthdayPopover = document.querySelector("#birthdayPopover");
@@ -1479,6 +2023,191 @@
           loadScene(nextIndex);
           directorVideo.play();
         });
+      });
+      const quizQuestions = [
+        [
+          "Who is more likely to start an argument over something tiny?",
+          "both",
+          "Correct. We are a team.",
+        ],
+        [
+          "Who needs CHAGEE more?",
+          "you",
+          "Correct. Nik's loyalty is a medical condition.",
+        ],
+        [
+          "Who is secretly the softest?",
+          "you",
+          "Correct. The evidence is overwhelming.",
+        ],
+      ];
+      let quizIndex = 0;
+      const quizQuestion = document.querySelector("#quizQuestion");
+      const quizResult = document.querySelector("#quizResult");
+      document.querySelectorAll(".quiz-option").forEach((option) =>
+        option.addEventListener("click", () => {
+          document
+            .querySelectorAll(".quiz-option")
+            .forEach((item) => item.classList.remove("selected"));
+          option.classList.add("selected");
+          quizResult.textContent =
+            option.dataset.answer === quizQuestions[quizIndex][1]
+              ? quizQuestions[quizIndex][2]
+              : "Interesting answer. We will discuss this later.";
+        }),
+      );
+      document.querySelector("#quizNext").addEventListener("click", () => {
+        quizIndex = (quizIndex + 1) % quizQuestions.length;
+        quizQuestion.textContent = quizQuestions[quizIndex][0];
+        quizResult.textContent = "";
+        document
+          .querySelectorAll(".quiz-option")
+          .forEach((item) => item.classList.remove("selected"));
+      });
+      const reasons = [
+        "the way you make me laugh",
+        "your very good smile",
+        "how you make ordinary days special",
+        "your CHAGEE loyalty",
+        "the way you are always you",
+        "your soft heart (don't deny it)",
+      ];
+      let reasonIndex = 0;
+      setInterval(() => {
+        reasonIndex = (reasonIndex + 1) % reasons.length;
+        const ticker = document.querySelector("#reasonTicker");
+        ticker.style.opacity = "0";
+        setTimeout(() => {
+          ticker.textContent = reasons[reasonIndex];
+          ticker.style.opacity = "1";
+        }, 180);
+      }, 2600);
+      document.querySelector(".brand-mark").addEventListener("click", () => {
+        const secret = document.querySelector("#hiddenNote");
+        secret.classList.toggle("open");
+      });
+      const boothVideo = document.querySelector("#boothVideo");
+      const boothCanvas = document.querySelector("#boothCanvas");
+      const boothPlaceholder = document.querySelector("#boothPlaceholder");
+      const boothSave = document.querySelector("#boothSave");
+      let selectedFrame =
+        "../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg";
+      let boothStream;
+      document.querySelectorAll(".frame-choice").forEach((choice) =>
+        choice.addEventListener("click", () => {
+          document
+            .querySelectorAll(".frame-choice")
+            .forEach((item) => item.classList.remove("selected"));
+          choice.classList.add("selected");
+          selectedFrame = choice.dataset.frame;
+        }),
+      );
+      document
+        .querySelector("#boothStart")
+        .addEventListener("click", async () => {
+          try {
+            boothStream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: "user" },
+              audio: false,
+            });
+            boothVideo.srcObject = boothStream;
+            boothPlaceholder.hidden = true;
+          } catch (error) {
+            boothPlaceholder.textContent =
+              "Camera shy? Allow camera access, then try again.";
+          }
+        });
+      document
+        .querySelector("#boothSnap")
+        .addEventListener("click", async () => {
+          if (!boothVideo.videoWidth) return;
+          const frame = new Image();
+          frame.src = selectedFrame;
+          await new Promise((resolve) => {
+            frame.onload = resolve;
+          });
+          const width = 720;
+          const height = Math.round(
+            (width * frame.naturalHeight) / frame.naturalWidth,
+          );
+          boothCanvas.width = width;
+          boothCanvas.height = height;
+          const context = boothCanvas.getContext("2d");
+          context.drawImage(frame, 0, 0, width, height);
+          const videoRatio = boothVideo.videoWidth / boothVideo.videoHeight;
+          const isFourFrame = selectedFrame.includes("3.46.22 AM (2)");
+          const windows = isFourFrame
+            ? [
+                [0.18, 0.07, 0.64, 0.16],
+                [0.18, 0.28, 0.64, 0.16],
+                [0.18, 0.49, 0.64, 0.16],
+                [0.18, 0.7, 0.64, 0.16],
+              ]
+            : [
+                [0.14, 0.08, 0.72, 0.19],
+                [0.14, 0.34, 0.72, 0.19],
+                [0.14, 0.6, 0.72, 0.19],
+              ];
+          windows.forEach(([x, y, w, h]) => {
+            const windowWidth = width * w;
+            const windowHeight = height * h;
+            let drawWidth = windowWidth;
+            let drawHeight = windowWidth / videoRatio;
+            if (drawHeight < windowHeight) {
+              drawHeight = windowHeight;
+              drawWidth = windowHeight * videoRatio;
+            }
+            context.save();
+            context.beginPath();
+            context.rect(width * x, height * y, windowWidth, windowHeight);
+            context.clip();
+            context.drawImage(
+              boothVideo,
+              width * x + (windowWidth - drawWidth) / 2,
+              height * y + (windowHeight - drawHeight) / 2,
+              drawWidth,
+              drawHeight,
+            );
+            context.restore();
+          });
+          boothSave.href = boothCanvas.toDataURL("image/png");
+          boothSave.hidden = false;
+          boothSave.textContent = "save your strip ↓";
+        });
+      const loveModal = document.querySelector("#loveModal");
+      const noButton = document.querySelector("#noButton");
+      document
+        .querySelector("#loveButton")
+        .addEventListener("click", () => loveModal.classList.add("open"));
+      function dodgeNo() {
+        const x = Math.random() * 150 - 75;
+        const y = Math.random() * 80 - 40;
+        noButton.style.transform = `translate(${x}px, ${y}px)`;
+      }
+      noButton.addEventListener("pointerenter", dodgeNo);
+      noButton.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        dodgeNo();
+      });
+      document.querySelector("#yesButton").addEventListener("click", () => {
+        document.querySelector("#loveNote").classList.add("open");
+        document.querySelector(".love-actions").style.display = "none";
+        loveModal.querySelector(".love-card").style.transform =
+          "rotate(0) scale(1.03)";
+        for (let index = 0; index < 34; index += 1) {
+          const piece = document.createElement("span");
+          piece.className = "confetti-piece";
+          piece.style.left = `${Math.random() * 100}vw`;
+          piece.style.background = ["#c9dfc8", "#477a5d", "#f3e5c8", "#f1aaa9"][
+            index % 4
+          ];
+          piece.style.animationDelay = `${Math.random() * 0.4}s`;
+          document.body.appendChild(piece);
+          setTimeout(() => piece.remove(), 2400);
+        }
+      });
+      loveModal.addEventListener("click", (event) => {
+        if (event.target === loveModal) loveModal.classList.remove("open");
       });
       const noteContent = {
         care: {

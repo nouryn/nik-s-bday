@@ -2134,18 +2134,46 @@
         }
       });
       const film = [
-        ["WhatsApp Video 2026-09-16 at 2.43.24 AM.mp4", "the opening scene"],
-        ["WhatsApp Video 2026-09-16 at 2.45.15 AM.mp4", "caught being cute"],
+        [
+          "WhatsApp Video 2026-09-16 at 4.29.22 AM.mp4",
+          "a little later, still cute",
+        ],
         ["WhatsApp Video 2026-09-16 at 2.45.17 AM.mp4", "tiny main character"],
-        ["WhatsApp Video 2026-09-16 at 2.45.18 AM.mp4", "the plot thickens"],
-        ["WhatsApp Video 2026-09-16 at 2.47.42 AM.mp4", "nik being nik"],
+        [
+          "WhatsApp Video 2026-09-16 at 4.33.06 AM.mp4",
+          "the late-night chapter",
+        ],
+        ["WhatsApp Video 2026-09-16 at 2.43.24 AM.mp4", "the opening scene"],
+        ["WhatsApp Video 2026-09-16 at 4.27.57 AM.mp4", "caught in the moment"],
         ["WhatsApp Video 2026-09-16 at 2.49.12 AM.mp4", "director's favourite"],
-        ["WhatsApp Video 2026-09-16 at 2.49.13 AM.mp4", "a very good day"],
-        ["WhatsApp Video 2026-09-16 at 2.49.15 AM.mp4", "soft launch"],
-        ["WhatsApp Video 2026-09-16 at 2.51.47 AM.mp4", "scenes from us"],
-        ["WhatsApp Video 2026-09-16 at 2.51.50 AM.mp4", "the comedy special"],
+        ["WhatsApp Video 2026-09-16 at 4.31.53 AM.mp4", "one for the archive"],
+        ["WhatsApp Video 2026-09-16 at 2.45.15 AM.mp4", "caught being cute"],
+        ["WhatsApp Video 2026-09-16 at 4.25.50 AM.mp4", "the day begins"],
         ["WhatsApp Video 2026-09-16 at 2.51.55 AM (1).mp4", "bonus footage"],
+        ["WhatsApp Video 2026-09-16 at 4.32.22 AM.mp4", "another favourite"],
+        ["WhatsApp Video 2026-09-16 at 2.47.42 AM.mp4", "nik being nik"],
+        ["WhatsApp Video 2026-09-16 at 4.30.55 AM.mp4", "the plot thickens"],
+        ["WhatsApp Video 2026-09-16 at 2.49.15 AM.mp4", "soft launch"],
+        ["WhatsApp Video 2026-09-16 at 4.26.52 AM.mp4", "a very good day"],
+        ["WhatsApp Video 2026-09-16 at 2.51.47 AM.mp4", "scenes from us"],
+        [
+          "WhatsApp Video 2026-09-16 at 4.33.47 AM.mp4",
+          "to be continued, for now",
+        ],
+        ["WhatsApp Video 2026-09-16 at 2.45.18 AM.mp4", "the plot thickens"],
+        ["WhatsApp Video 2026-09-16 at 4.29.59 AM.mp4", "a very good one"],
+        ["WhatsApp Video 2026-09-16 at 2.49.13 AM.mp4", "a very good day"],
+        [
+          "WhatsApp Video 2026-09-16 at 4.27.19 AM.mp4",
+          "main character energy",
+        ],
+        ["WhatsApp Video 2026-09-16 at 2.51.50 AM.mp4", "the comedy special"],
+        ["WhatsApp Video 2026-09-16 at 4.31.31 AM.mp4", "still not over this"],
         ["WhatsApp Video 2026-09-16 at 2.51.55 AM.mp4", "to be continued"],
+        [
+          "WhatsApp Video 2026-09-16 at 4.33.17 AM.mp4",
+          "the final little scene",
+        ],
       ];
       const directorVideo = document.querySelector("#directorVideo");
       const directorPlay = document.querySelector("#directorPlay");
@@ -2519,6 +2547,9 @@
       });
       const audio = new Audio();
       const tracks = [...document.querySelectorAll(".track")];
+      const openingTrack = tracks.find((track) =>
+        track.dataset.src.endsWith("Reminisensi.mp3"),
+      );
       let activeTrack;
       function markTrack(track) {
         tracks.forEach((item) => {
@@ -2536,7 +2567,7 @@
         if (attempt) attempt.catch(() => markTrack(null));
       }
       function startPlaylist() {
-        playTrack(activeTrack || tracks[0]);
+        playTrack(activeTrack || openingTrack || tracks[0]);
       }
       birthdayClose.addEventListener("click", startPlaylist);
       document.addEventListener("pointerdown", startPlaylist, { once: true });
@@ -2555,7 +2586,7 @@
         if (nextIndex < tracks.length) playTrack(tracks[nextIndex]);
         else markTrack(null);
       });
-      playTrack(tracks[0]);
+      playTrack(openingTrack || tracks[0]);
       const letter =
         "Happy birthday to my favourite person. You're old! Thank you for being the kind of person who makes life feel lighter, funnier, and a little more like an adventure. I love all the ordinary and crazy moments with you most. Though all the arguments and all, I hope on trying my best to stay with you, and hoping you would do the same too. Here's to being 22 (old), and to every cup of Chagee and little life we have left to share. Hoping we could share more years together.";
       const typedText = document.querySelector("#typedText");

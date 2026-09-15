@@ -892,17 +892,48 @@
         padding-top: 18px;
       }
       .promise-list {
-        background: var(--cream);
+        background: none;
+        display: grid;
+        gap: 14px;
+        padding: 0;
       }
       .promise-item {
         align-items: baseline;
-        border-bottom: 1px solid var(--line);
+        background: var(--cream);
+        border: 1px dashed var(--leaf);
         display: flex;
         gap: 15px;
-        padding: 16px 0;
+        min-height: 92px;
+        padding: 22px 24px;
+        position: relative;
+      }
+      .promise-item::before,
+      .promise-item::after {
+        background: var(--paper);
+        border-radius: 50%;
+        content: "";
+        height: 16px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+      }
+      .promise-item::before {
+        left: -9px;
+      }
+      .promise-item::after {
+        right: -9px;
+      }
+      .promise-item:nth-child(2) {
+        background: #e9f0df;
+        transform: rotate(1deg);
+      }
+      .promise-item:nth-child(3) {
+        background: #d9e9dc;
+        transform: rotate(-1deg);
       }
       .promise-item:last-child {
-        border-bottom: 0;
+        border-bottom: 1px dashed var(--leaf);
       }
       .promise-number {
         color: var(--leaf);
@@ -946,8 +977,10 @@
       }
       .booth-stage {
         background: var(--forest);
+        min-width: 0;
         padding: 14px;
         transform: rotate(-2deg);
+        width: 100%;
       }
       .booth-camera {
         aspect-ratio: 3 / 4;
@@ -960,6 +993,17 @@
         object-fit: cover;
         transform: scaleX(-1);
         width: 100%;
+      }
+      .booth-preview {
+        background: #fffdf4;
+        display: block;
+        height: auto;
+        max-height: 440px;
+        object-fit: contain;
+        width: 100%;
+      }
+      .booth-preview[hidden] {
+        display: none;
       }
       .booth-placeholder {
         align-items: center;
@@ -977,6 +1021,13 @@
         gap: 9px;
         margin-top: 14px;
       }
+      .booth-status {
+        color: var(--forest);
+        font: 11px var(--mono);
+        min-height: 18px;
+        padding-top: 10px;
+        text-transform: uppercase;
+      }
       .booth-button {
         background: var(--mint);
         color: var(--forest);
@@ -990,6 +1041,8 @@
         display: flex;
         gap: 10px;
         margin-top: 22px;
+        max-width: 100%;
+        min-width: 0;
         overflow-x: auto;
         padding: 3px;
       }
@@ -1032,6 +1085,78 @@
       }
       .love-modal.open {
         display: grid;
+      }
+      .quiz-complete-modal {
+        background: rgba(23, 61, 52, 0.65);
+        display: none;
+        inset: 0;
+        place-items: center;
+        padding: 24px;
+        position: fixed;
+        z-index: 36;
+      }
+      .quiz-complete-modal.open {
+        display: grid;
+      }
+      .quiz-complete-card {
+        background: var(--mint);
+        box-shadow: 10px 10px 0 rgba(23, 61, 52, 0.2);
+        color: var(--forest);
+        max-width: 390px;
+        padding: 42px 32px;
+        text-align: center;
+        transform: rotate(2deg);
+      }
+      .quiz-complete-card h2 {
+        font: 46px var(--serif);
+        line-height: 0.92;
+        margin: 18px 0;
+      }
+      .quiz-complete-card p {
+        color: #456257;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .certificate-modal {
+        background: rgba(23, 61, 52, 0.72);
+        display: none;
+        inset: 0;
+        place-items: center;
+        padding: 24px;
+        position: fixed;
+        z-index: 37;
+      }
+      .certificate-modal.open {
+        display: grid;
+      }
+      .certificate-paper {
+        background: #fffdf4;
+        border: 12px solid var(--mint);
+        box-shadow: 12px 12px 0 rgba(23, 61, 52, 0.2);
+        color: var(--forest);
+        max-width: 480px;
+        outline: 1px solid var(--forest);
+        outline-offset: -20px;
+        padding: 56px 38px 44px;
+        text-align: center;
+        transform: rotate(-1deg);
+        width: 100%;
+      }
+      .certificate-paper h2 {
+        font: 48px var(--serif);
+        line-height: 0.9;
+        margin: 22px 0 14px;
+      }
+      .certificate-paper p {
+        color: #557064;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .certificate-seal {
+        color: var(--leaf);
+        font: 11px var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
       }
       .love-card {
         background: #fffdf4;
@@ -1384,8 +1509,8 @@
               <h2 class="serif">The Nik<br />cinematic universe.</h2>
             </div>
             <p class="section-note">
-              A moving-picture archive of one very handsome, very unserious
-              birthday boy.
+              A video note archive of one very handsome, very unserious birthday
+              boy.
             </p>
           </div>
           <div class="director-player">
@@ -1755,12 +1880,12 @@
           <div class="booth-layout">
             <div class="booth-stage">
               <div class="booth-camera">
-                <video id="boothVideo" autoplay muted playsinline></video
-                ><canvas id="boothCanvas" hidden></canvas>
+                <video id="boothVideo" autoplay muted playsinline></video>
                 <div class="booth-placeholder" id="boothPlaceholder">
                   your camera will appear here<br />probably looking very cute
                 </div>
               </div>
+              <canvas id="boothCanvas" class="booth-preview" hidden></canvas>
               <div class="booth-controls">
                 <button class="booth-button primary" id="boothStart">
                   turn camera on</button
@@ -1773,42 +1898,54 @@
                   >save strip</a
                 >
               </div>
+              <div class="booth-status" id="boothStatus">
+                choose a frame, then take 3 cute shots
+              </div>
               <div class="frame-choices" id="frameChoices">
                 <button
                   class="frame-choice selected"
                   data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg"
+                  data-shots="3"
                 >
                   <img
                     src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg"
                     alt="Plain green hills frame"
-                  /></button
-                ><button
+                  />
+                </button>
+                <button
                   class="frame-choice"
                   data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (1).jpeg"
+                  data-shots="3"
                 >
                   <img
                     src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (1).jpeg"
                     alt="Pink birthday frame"
-                  /></button
-                ><button
+                  />
+                </button>
+                <button
                   class="frame-choice"
                   data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM.jpeg"
+                  data-shots="3"
                 >
                   <img
                     src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM.jpeg"
                     alt="Cute animal frame"
-                  /></button
-                ><button
+                  />
+                </button>
+                <button
                   class="frame-choice"
                   data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM (1).jpeg"
+                  data-shots="3"
                 >
                   <img
                     src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM (1).jpeg"
                     alt="Film frame"
-                  /></button
-                ><button
+                  />
+                </button>
+                <button
                   class="frame-choice"
                   data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (2).jpeg"
+                  data-shots="4"
                 >
                   <img
                     src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (2).jpeg"
@@ -1909,6 +2046,51 @@
         <p class="hidden-note" id="loveNote">
           I knew it. Happy birthday, sayang. You are stuck with me forever.
         </p>
+      </div>
+    </div>
+    <div
+      class="quiz-complete-modal"
+      id="quizCompleteModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="quizCompleteTitle"
+    >
+      <div class="quiz-complete-card">
+        <div class="eyebrow">quiz certificate / nik approved</div>
+        <h2 id="quizCompleteTitle">Yeyyy, you finished it!</h2>
+        <p>
+          You are officially certified as Nik: 22, cute, and extremely deserving
+          of CHAGEE.
+        </p>
+        <button class="yes-button" id="quizCompleteClose">
+          accept certificate
+        </button>
+      </div>
+    </div>
+    <div
+      class="certificate-modal"
+      id="certificateModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="certificateTitle"
+    >
+      <div class="certificate-paper">
+        <div class="certificate-seal">official birthday department</div>
+        <h2 id="certificateTitle">Certificate of<br />being very loved</h2>
+        <p>
+          This certifies that <strong>Nik Muhammad Adam Danial</strong> has
+          successfully completed the birthday quiz and remains irresistibly cute
+          at age 22.
+        </p>
+        <p>
+          <em
+            >Issued with unlimited CHAGEE, affection, and absolutely no
+            refunds.</em
+          >
+        </p>
+        <button class="yes-button" id="certificateClose">
+          keep this certificate
+        </button>
       </div>
     </div>
     <p
@@ -2042,8 +2224,11 @@
         ],
       ];
       let quizIndex = 0;
+      let quizFinished = false;
       const quizQuestion = document.querySelector("#quizQuestion");
       const quizResult = document.querySelector("#quizResult");
+      const quizCompleteModal = document.querySelector("#quizCompleteModal");
+      const certificateModal = document.querySelector("#certificateModal");
       document.querySelectorAll(".quiz-option").forEach((option) =>
         option.addEventListener("click", () => {
           document
@@ -2057,12 +2242,41 @@
         }),
       );
       document.querySelector("#quizNext").addEventListener("click", () => {
-        quizIndex = (quizIndex + 1) % quizQuestions.length;
+        if (quizFinished) return;
+        if (!document.querySelector(".quiz-option.selected")) {
+          quizResult.textContent = "Pick an answer first, birthday boy.";
+          return;
+        }
+        if (quizIndex === quizQuestions.length - 1) {
+          quizFinished = true;
+          quizCompleteModal.classList.add("open");
+          return;
+        }
+        quizIndex += 1;
         quizQuestion.textContent = quizQuestions[quizIndex][0];
         quizResult.textContent = "";
         document
           .querySelectorAll(".quiz-option")
           .forEach((item) => item.classList.remove("selected"));
+      });
+      document
+        .querySelector("#quizCompleteClose")
+        .addEventListener("click", () => {
+          quizCompleteModal.classList.remove("open");
+          certificateModal.classList.add("open");
+        });
+      quizCompleteModal.addEventListener("click", (event) => {
+        if (event.target === quizCompleteModal)
+          quizCompleteModal.classList.remove("open");
+      });
+      document
+        .querySelector("#certificateClose")
+        .addEventListener("click", () =>
+          certificateModal.classList.remove("open"),
+        );
+      certificateModal.addEventListener("click", (event) => {
+        if (event.target === certificateModal)
+          certificateModal.classList.remove("open");
       });
       const reasons = [
         "the way you make me laugh",
@@ -2090,8 +2304,10 @@
       const boothCanvas = document.querySelector("#boothCanvas");
       const boothPlaceholder = document.querySelector("#boothPlaceholder");
       const boothSave = document.querySelector("#boothSave");
+      const boothStatus = document.querySelector("#boothStatus");
       let selectedFrame =
         "../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg";
+      let selectedShots = 3;
       let boothStream;
       document.querySelectorAll(".frame-choice").forEach((choice) =>
         choice.addEventListener("click", () => {
@@ -2100,6 +2316,10 @@
             .forEach((item) => item.classList.remove("selected"));
           choice.classList.add("selected");
           selectedFrame = choice.dataset.frame;
+          selectedShots = Number(choice.dataset.shots);
+          boothStatus.textContent = `choose a pose, then take ${selectedShots} cute shots`;
+          boothCanvas.hidden = true;
+          boothSave.hidden = true;
         }),
       );
       document
@@ -2120,7 +2340,24 @@
       document
         .querySelector("#boothSnap")
         .addEventListener("click", async () => {
-          if (!boothVideo.videoWidth) return;
+          if (!boothVideo.videoWidth) {
+            boothStatus.textContent = "turn the camera on first, birthday boy";
+            return;
+          }
+          const snapButton = document.querySelector("#boothSnap");
+          snapButton.disabled = true;
+          const shots = [];
+          for (let shotIndex = 0; shotIndex < selectedShots; shotIndex += 1) {
+            boothStatus.textContent = `shot ${shotIndex + 1} of ${selectedShots}... pose!`;
+            await new Promise((resolve) => setTimeout(resolve, 850));
+            const shotCanvas = document.createElement("canvas");
+            shotCanvas.width = boothVideo.videoWidth;
+            shotCanvas.height = boothVideo.videoHeight;
+            shotCanvas
+              .getContext("2d")
+              .drawImage(boothVideo, 0, 0, shotCanvas.width, shotCanvas.height);
+            shots.push(shotCanvas);
+          }
           const frame = new Image();
           frame.src = selectedFrame;
           await new Promise((resolve) => {
@@ -2135,34 +2372,64 @@
           const context = boothCanvas.getContext("2d");
           context.drawImage(frame, 0, 0, width, height);
           const videoRatio = boothVideo.videoWidth / boothVideo.videoHeight;
-          const isFourFrame = selectedFrame.includes("3.46.22 AM (2)");
-          const windows = isFourFrame
+          const windows = selectedFrame.includes("3.46.22 AM (2)")
             ? [
-                [0.18, 0.07, 0.64, 0.16],
-                [0.18, 0.28, 0.64, 0.16],
-                [0.18, 0.49, 0.64, 0.16],
-                [0.18, 0.7, 0.64, 0.16],
+                [0.17, 0.064, 0.65, 0.173],
+                [0.17, 0.252, 0.65, 0.173],
+                [0.17, 0.44, 0.65, 0.173],
+                [0.17, 0.628, 0.65, 0.173],
               ]
-            : [
-                [0.14, 0.08, 0.72, 0.19],
-                [0.14, 0.34, 0.72, 0.19],
-                [0.14, 0.6, 0.72, 0.19],
-              ];
-          windows.forEach(([x, y, w, h]) => {
+            : selectedFrame.includes("3.46.22 AM (1)")
+              ? [
+                  [0.135, 0.04, 0.73, 0.257],
+                  [0.135, 0.327, 0.73, 0.347],
+                  [0.135, 0.69, 0.73, 0.25],
+                ]
+              : selectedFrame.includes("3.46.23 AM.jpeg")
+                ? [
+                    [0.14, 0.05, 0.73, 0.232],
+                    [0.14, 0.33, 0.73, 0.247],
+                    [0.14, 0.625, 0.73, 0.25],
+                  ]
+                : selectedFrame.includes("3.46.23 AM (1)")
+                  ? [
+                      [0.135, 0.04, 0.73, 0.267],
+                      [0.135, 0.327, 0.73, 0.346],
+                      [0.135, 0.694, 0.73, 0.25],
+                    ]
+                  : [
+                      [0.1, 0.035, 0.8, 0.272],
+                      [0.1, 0.315, 0.8, 0.27],
+                      [0.1, 0.595, 0.8, 0.272],
+                    ];
+          windows.forEach(([x, y, w, h], shotIndex) => {
             const windowWidth = width * w;
             const windowHeight = height * h;
+            const inset = 5;
             let drawWidth = windowWidth;
             let drawHeight = windowWidth / videoRatio;
             if (drawHeight < windowHeight) {
               drawHeight = windowHeight;
               drawWidth = windowHeight * videoRatio;
             }
+            context.fillStyle = "#fffdf4";
+            context.fillRect(
+              width * x + inset,
+              height * y + inset,
+              windowWidth - inset * 2,
+              windowHeight - inset * 2,
+            );
             context.save();
             context.beginPath();
-            context.rect(width * x, height * y, windowWidth, windowHeight);
+            context.rect(
+              width * x + inset,
+              height * y + inset,
+              windowWidth - inset * 2,
+              windowHeight - inset * 2,
+            );
             context.clip();
             context.drawImage(
-              boothVideo,
+              shots[shotIndex],
               width * x + (windowWidth - drawWidth) / 2,
               height * y + (windowHeight - drawHeight) / 2,
               drawWidth,
@@ -2170,9 +2437,12 @@
             );
             context.restore();
           });
+          boothCanvas.hidden = false;
           boothSave.href = boothCanvas.toDataURL("image/png");
           boothSave.hidden = false;
           boothSave.textContent = "save your strip ↓";
+          boothStatus.textContent = `preview ready: ${selectedShots} shots of you, looking iconic`;
+          snapButton.disabled = false;
         });
       const loveModal = document.querySelector("#loveModal");
       const noButton = document.querySelector("#noButton");

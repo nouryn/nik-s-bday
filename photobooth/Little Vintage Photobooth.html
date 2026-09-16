@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3e8db" />
+    <title>Little Vintage Photobooth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f5ede2;
+        --paper-deep: #ead9c7;
+        --sepia: #755847;
+        --ink: #4e4039;
+        --muted: #a58b7b;
+        --white: #fffaf3;
+        --script: "Dancing Script", cursive;
+        --serif: "Playfair Display", Georgia, serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        min-width: 320px;
+        scroll-behavior: smooth;
+      }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--serif);
+      }
+      body:before {
+        position: fixed;
+        z-index: 10;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.18;
+        content: "";
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+        mix-blend-mode: multiply;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        border: 0;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--sepia);
+        outline-offset: 4px;
+      }
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 22px 22px 14px;
+        animation: page-in 0.8s ease both;
+      }
+      .topbar {
+        width: min(100%, 940px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--muted);
+        font: 12px var(--serif);
+      }
+      .topbar a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .topbar a:hover {
+        color: var(--sepia);
+      }
+      .share-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px;
+        color: inherit;
+        background: transparent;
+        font-size: 12px;
+      }
+      .share-button span {
+        display: inline-block;
+        transition: transform 0.25s ease;
+      }
+      .share-button:hover span {
+        transform: translateY(-2px) rotate(-8deg);
+      }
+      .booth-main {
+        display: flex;
+        flex: 1;
+        width: 100%;
+        max-width: 940px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 0 50px;
+      }
+      .booth-video {
+        width: min(100%, 218px);
+        margin-bottom: 24px;
+        overflow: hidden;
+        background: var(--paper-deep);
+        box-shadow: 8px 10px 0 rgba(117, 88, 71, 0.12);
+        transform: rotate(-2deg);
+        animation: float-in 0.9s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      .booth-video video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4/5;
+        object-fit: cover;
+        filter: sepia(0.12) saturate(0.82);
+      }
+      .video-placeholder {
+        display: grid;
+        place-items: center;
+        aspect-ratio: 4/5;
+        padding: 20px;
+        color: var(--muted);
+        text-align: center;
+        font: 15px var(--script);
+      }
+      .video-placeholder span {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--sepia);
+        font: 30px var(--serif);
+      }
+      .booth-title {
+        margin: 0;
+        color: var(--sepia);
+        font: 600 clamp(42px, 7vw, 68px)/0.9 var(--script);
+        text-align: center;
+      }
+      .booth-subtitle {
+        min-height: 23px;
+        margin: 12px 0 24px;
+        color: var(--muted);
+        font: 18px var(--script);
+        text-align: center;
+      }
+      .booth-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 30px;
+      }
+      .booth-button {
+        min-width: 150px;
+        padding: 13px 20px;
+        color: var(--white);
+        background: var(--sepia);
+        border-radius: 7px;
+        box-shadow: 0 4px 0 #60493c;
+        font: 15px var(--serif);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          background 0.25s ease;
+      }
+      .booth-button:hover {
+        background: #8c6955;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 0 #60493c;
+      }
+      .booth-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 0 #60493c;
+      }
+      .booth-button.secondary {
+        color: var(--sepia);
+        background: transparent;
+        border: 1px solid var(--sepia);
+        box-shadow: none;
+      }
+      .booth-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 28px;
+        width: min(100%, 700px);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          max-height 0.7s ease,
+          opacity 0.45s ease,
+          transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .booth-panel.open {
+        max-height: 600px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .camera-card,
+      .strip-card {
+        padding: 14px;
+        background: rgba(255, 250, 243, 0.72);
+        border: 1px solid rgba(117, 88, 71, 0.18);
+        box-shadow: 7px 8px 0 rgba(117, 88, 71, 0.1);
+      }
+      .camera-view {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 4/3;
+        background: var(--paper-deep);
+      }
+      .camera-view video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scaleX(-1);
+      }
+      .camera-view video:not(.active),
+      .camera-message.hidden {
+        display: none;
+      }
+      .camera-message {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        color: var(--muted);
+        text-align: center;
+        font: 20px var(--script);
+      }
+      .camera-message span {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--sepia);
+        font: 30px var(--serif);
+      }
+      .camera-tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .tool-button {
+        padding: 9px 12px;
+        color: var(--sepia);
+        background: var(--paper);
+        border: 1px solid rgba(117, 88, 71, 0.25);
+        border-radius: 5px;
+        font-size: 12px;
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+      .tool-button:hover {
+        background: var(--paper-deep);
+        transform: translateY(-2px);
+      }
+      .tool-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+      }
+      .status {
+        min-height: 18px;
+        margin: 11px 0 0;
+        color: var(--muted);
+        font: 14px var(--script);
+      }
+      .strip-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .strip {
+        width: 174px;
+        padding: 12px 12px 16px;
+        background: #efd7d5;
+        color: #8a5d5d;
+        box-shadow: 3px 5px 0 rgba(117, 88, 71, 0.14);
+        transform: rotate(2deg);
+        transition:
+          background 0.4s ease,
+          transform 0.4s ease;
+      }
+      .strip.garden {
+        background: #dce8d5;
+        color: #58705b;
+      }
+      .strip.lavender {
+        background: #e5ddef;
+        color: #6d5b8f;
+      }
+      .strip.secret {
+        background: #fff0e8;
+        color: #9a655f;
+      }
+      .strip-head,
+      .strip-foot {
+        display: block;
+        text-align: center;
+        font: 14px var(--script);
+      }
+      .strip-head {
+        margin-bottom: 9px;
+        font-size: 20px;
+      }
+      .shot {
+        position: relative;
+        display: grid;
+        place-items: center;
+        aspect-ratio: 1.1/1;
+        margin-top: 7px;
+        overflow: hidden;
+        background: var(--white);
+        color: var(--muted);
+        font: 19px var(--script);
+      }
+      .shot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: shot-reveal 0.5s ease both;
+      }
+      .strip-foot {
+        margin-top: 9px;
+        font-size: 13px;
+      }
+      .save-button {
+        width: 100%;
+        margin-top: 18px;
+        padding: 10px 8px;
+        color: var(--sepia);
+        background: transparent;
+        border: 1px solid var(--sepia);
+        border-radius: 5px;
+        font-size: 12px;
+        transition:
+          color 0.2s ease,
+          background 0.2s ease;
+      }
+      .save-button:hover:not(:disabled) {
+        color: var(--white);
+        background: var(--sepia);
+      }
+      .save-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+      }
+      .frame-picker {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 26px;
+      }
+      .frame-choice {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 62px;
+        padding: 0;
+        color: var(--sepia);
+        background: var(--paper-deep);
+        border: 2px solid transparent;
+        border-radius: 4px;
+        font: 20px var(--script);
+        transition:
+          transform 0.25s ease,
+          border-color 0.25s ease;
+      }
+      .frame-choice:hover {
+        transform: translateY(-4px) rotate(-3deg);
+      }
+      .frame-choice.selected {
+        border-color: var(--sepia);
+        transform: translateY(-5px);
+      }
+      .footer {
+        width: min(100%, 940px);
+        padding-top: 14px;
+        color: var(--muted);
+        text-align: center;
+        font: 13px var(--script);
+      }
+      .toast {
+        position: fixed;
+        z-index: 20;
+        right: 20px;
+        bottom: 20px;
+        max-width: min(300px, calc(100% - 40px));
+        padding: 12px 16px;
+        color: var(--white);
+        background: var(--sepia);
+        border-radius: 6px;
+        box-shadow: 0 9px 25px rgba(78, 64, 57, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        font: 15px var(--script);
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @keyframes page-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes float-in {
+        from {
+          opacity: 0;
+          transform: translateY(18px) rotate(-2deg);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) rotate(-2deg);
+        }
+      }
+      @keyframes shot-reveal {
+        from {
+          opacity: 0;
+          transform: scale(1.08);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @media (max-width: 680px) {
+        .page {
+          padding: 16px 16px 12px;
+        }
+        .booth-main {
+          padding-top: 30px;
+        }
+        .booth-panel {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .strip-card {
+          max-width: 250px;
+          margin: 0 auto;
+        }
+        .strip {
+          width: 180px;
+        }
+      }
+      @media (max-width: 420px) {
+        .topbar {
+          font-size: 11px;
+        }
+        .booth-actions {
+          width: 100%;
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .booth-button {
+          width: 100%;
+        }
+        .booth-subtitle {
+          margin-bottom: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a href="../theme/CHAGEE-home.html">← back to the birthday</a
+        ><button class="share-button" id="shareButton" type="button">
+          <span>♧</span> share this little booth
+        </button>
+      </header>
+      <main class="booth-main">
+        <div class="booth-video" aria-label="Photobooth preview">
+          <div class="video-placeholder" id="videoPlaceholder">
+            <span>✦</span> a tiny place<br />for tiny memories
+          </div>
+        </div>
+        <h1 class="booth-title">Vintage Photobooth</h1>
+        <p class="booth-subtitle">a little picture, a little magic</p>
+        <div class="booth-actions">
+          <button class="booth-button" id="cameraButton" type="button">
+            Use Camera</button
+          ><label class="booth-button" for="uploadInput">Upload Photos</label
+          ><input
+            id="uploadInput"
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+          />
+        </div>
+        <section
+          class="booth-panel"
+          id="boothPanel"
+          aria-label="Photo booth controls"
+        >
+          <div class="camera-card">
+            <div class="camera-view">
+              <video id="cameraVideo" autoplay muted playsinline></video>
+              <div class="camera-message" id="cameraMessage">
+                <div>
+                  <span>⌁</span>start the camera<br />then give us a pose
+                </div>
+              </div>
+            </div>
+            <div class="camera-tools">
+              <button class="tool-button" id="startButton" type="button">
+                Start camera</button
+              ><button
+                class="tool-button"
+                id="snapButton"
+                type="button"
+                disabled
+              >
+                Take photo <span id="count">0/3</span></button
+              ><button class="tool-button" id="resetButton" type="button">
+                Retake
+              </button>
+            </div>
+            <p class="status" id="status" role="status">
+              Choose a frame, then wake up the camera.
+            </p>
+          </div>
+          <div class="strip-card">
+            <div class="strip" id="strip">
+              <span class="strip-head" id="stripHead">✿ &nbsp; ✦ &nbsp; ✿</span>
+              <div class="shot" data-slot="0">1</div>
+              <div class="shot" data-slot="1">2</div>
+              <div class="shot" data-slot="2">3</div>
+              <small class="strip-foot">little vintage us</small>
+            </div>
+            <button class="save-button" id="saveButton" type="button" disabled>
+              ↓ save photo strip
+            </button>
+          </div>
+        </section>
+        <div class="frame-picker" aria-label="Choose a frame">
+          <button
+            class="frame-choice selected"
+            data-frame="blush"
+            data-decoration="✿  ✦  ✿"
+            type="button"
+            aria-label="Blush frame"
+          >
+            ✿</button
+          ><button
+            class="frame-choice"
+            data-frame="lavender"
+            data-decoration="☾  ✦  ☾"
+            type="button"
+            aria-label="Lavender frame"
+          >
+            ☾</button
+          ><button
+            class="frame-choice"
+            data-frame="garden"
+            data-decoration="🌷  ❀  🌷"
+            type="button"
+            aria-label="Garden frame"
+          >
+            ❀</button
+          ><button
+            class="frame-choice"
+            data-frame="secret"
+            data-decoration="♡  ✦  ♡"
+            type="button"
+            aria-label="Secret frame"
+          >
+            ♡
+          </button>
+        </div>
+      </main>
+      <footer class="footer">
+        made for silly poses, soft smiles, and one very cute birthday boy
+      </footer>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const panel = document.querySelector("#boothPanel"),
+        cameraButton = document.querySelector("#cameraButton"),
+        startButton = document.querySelector("#startButton"),
+        cameraVideo = document.querySelector("#cameraVideo"),
+        cameraMessage = document.querySelector("#cameraMessage"),
+        snapButton = document.querySelector("#snapButton"),
+        resetButton = document.querySelector("#resetButton"),
+        uploadInput = document.querySelector("#uploadInput"),
+        saveButton = document.querySelector("#saveButton"),
+        status = document.querySelector("#status"),
+        count = document.querySelector("#count"),
+        strip = document.querySelector("#strip"),
+        stripHead = document.querySelector("#stripHead"),
+        toast = document.querySelector("#toast"),
+        shots = [...document.querySelectorAll(".shot")];
+      let stream,
+        captured = [],
+        activeFrame = "blush",
+        toastTimer;
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+      }
+      function openPanel() {
+        panel.classList.add("open");
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      async function startCamera() {
+        openPanel();
+        if (!navigator.mediaDevices?.getUserMedia) {
+          status.textContent =
+            "Camera access is not available here, but you can still upload photos.";
+          return;
+        }
+        try {
+          stream?.getTracks().forEach((track) => track.stop());
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" },
+            audio: false,
+          });
+          cameraVideo.srcObject = stream;
+          cameraVideo.classList.add("active");
+          cameraMessage.classList.add("hidden");
+          snapButton.disabled = false;
+          status.textContent = "Camera ready — give us your first pose!";
+        } catch {
+          status.textContent =
+            "Camera access was skipped. Try uploading a few favourites instead.";
+          showToast("No camera? No problem, the upload button is ready.");
+        }
+      }
+      function addPhoto(source) {
+        if (captured.length >= 3) return;
+        captured.push(source);
+        shots[captured.length - 1].innerHTML =
+          `<img src="${source}" alt="Captured pose ${captured.length}" />`;
+        count.textContent = `${captured.length}/3`;
+        saveButton.disabled = captured.length !== 3;
+        status.textContent =
+          captured.length === 3
+            ? "Your little strip is ready — save it!"
+            : `${captured.length}/3 captured. Try a different pose!`;
+      }
+      function snapPhoto() {
+        if (!cameraVideo.videoWidth || captured.length >= 3) return;
+        const canvas = document.createElement("canvas");
+        canvas.width = cameraVideo.videoWidth;
+        canvas.height = cameraVideo.videoHeight;
+        const context = canvas.getContext("2d");
+        context.translate(canvas.width, 0);
+        context.scale(-1, 1);
+        context.drawImage(cameraVideo, 0, 0);
+        addPhoto(canvas.toDataURL("image/jpeg", 0.92));
+      }
+      function resetStrip() {
+        captured = [];
+        shots.forEach((shot, index) => (shot.textContent = index + 1));
+        count.textContent = "0/3";
+        saveButton.disabled = true;
+        status.textContent = cameraVideo.classList.contains("active")
+          ? "Fresh strip! Ready for pose number one."
+          : "Choose a frame, then wake up the camera.";
+      }
+      function useUploads(event) {
+        const files = [...event.target.files].slice(0, 3);
+        if (!files.length) return;
+        resetStrip();
+        openPanel();
+        files.forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = () => addPhoto(reader.result);
+          reader.readAsDataURL(file);
+        });
+        status.textContent = "Your photos are joining the little strip...";
+      }
+      function chooseFrame(button) {
+        document
+          .querySelectorAll(".frame-choice")
+          .forEach((item) => item.classList.remove("selected"));
+        button.classList.add("selected");
+        activeFrame = button.dataset.frame || "blush";
+        strip.className = `strip ${activeFrame}`;
+        stripHead.textContent = button.dataset.decoration || "♡  ✦  ♡";
+        if (activeFrame === "secret")
+          showToast("secret frame unlocked: maximum sweetness.");
+      }
+      async function saveStrip() {
+        if (captured.length !== 3) return;
+        const canvas = document.createElement("canvas");
+        canvas.width = 720;
+        canvas.height = 1840;
+        const context = canvas.getContext("2d"),
+          colors = {
+            blush: [239, 215, 213],
+            lavender: [229, 221, 239],
+            garden: [220, 232, 213],
+            secret: [255, 240, 232],
+          },
+          [red, green, blue] = colors[activeFrame];
+        context.fillStyle = `rgb(${red},${green},${blue})`;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        const images = await Promise.all(
+          captured.map(
+            (source) =>
+              new Promise((resolve) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.src = source;
+              }),
+          ),
+        );
+        images.forEach((image, index) => {
+          const x = 45,
+            y = 110 + index * 530,
+            width = 630,
+            height = 470,
+            scale = Math.max(width / image.width, height / image.height),
+            sw = width / scale,
+            sh = height / scale;
+          context.fillStyle = "#fffaf3";
+          context.fillRect(x - 9, y - 9, width + 18, height + 18);
+          context.drawImage(
+            image,
+            (image.width - sw) / 2,
+            (image.height - sh) / 2,
+            sw,
+            sh,
+            x,
+            y,
+            width,
+            height,
+          );
+        });
+        context.fillStyle = "#755847";
+        context.textAlign = "center";
+        context.font = "31px serif";
+        context.fillText(stripHead.textContent, 360, 62);
+        context.font = "25px serif";
+        context.fillText("LITTLE VINTAGE US", 360, 1755);
+        const link = document.createElement("a");
+        link.download = `little-vintage-${activeFrame}-photo-strip.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        showToast("your tiny memory is saved ✦");
+      }
+      cameraButton.addEventListener("click", startCamera);
+      startButton.addEventListener("click", startCamera);
+      snapButton.addEventListener("click", snapPhoto);
+      resetButton.addEventListener("click", resetStrip);
+      uploadInput.addEventListener("change", useUploads);
+      saveButton.addEventListener("click", saveStrip);
+      document
+        .querySelectorAll(".frame-choice")
+        .forEach((button) =>
+          button.addEventListener("click", () => chooseFrame(button)),
+        );
+      document
+        .querySelector("#shareButton")
+        .addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            showToast("link copied — send it to your favourite person.");
+          } catch {
+            showToast("this little booth is best shared in person.");
+          }
+        });
+      window.addEventListener("beforeunload", () =>
+        stream?.getTracks().forEach((track) => track.stop()),
+      );
+    </script>
+  </body>
+</html>

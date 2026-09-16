@@ -166,6 +166,9 @@
         transform: rotate(3deg);
         width: min(100%, 430px);
       }
+      .hero-photo {
+        cursor: pointer;
+      }
       .hero-photo img {
         height: 100%;
         object-fit: cover;
@@ -284,20 +287,22 @@
       }
       .gallery {
         display: grid;
-        gap: 16px;
+        gap: 20px;
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .gallery figure {
         margin: 0;
         overflow: hidden;
         position: relative;
+        cursor: zoom-in;
+        transition: transform 0.25s ease;
       }
       .gallery figure:first-child {
-        aspect-ratio: 2.38 / 1;
+        aspect-ratio: 2 / 1;
         grid-column: span 2;
       }
       .gallery figure:not(:first-child) {
-        aspect-ratio: 1.6 / 1;
+        aspect-ratio: 1.28 / 1;
       }
       .gallery img {
         height: 100%;
@@ -340,6 +345,27 @@
       }
       .gallery figure:hover img {
         transform: scale(1.04);
+      }
+      .gallery figure.is-peeking {
+        transform: rotate(-1deg) translateY(-5px);
+      }
+      .gallery figure.is-peeking img {
+        transform: scale(1.08);
+      }
+      @keyframes photo-love {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        35% {
+          transform: scale(1.04) rotate(-1deg);
+        }
+        70% {
+          transform: scale(1.02) rotate(1deg);
+        }
+      }
+      .hero-photo.is-loved img {
+        animation: photo-love 0.7s ease;
       }
       .gallery figcaption {
         background: var(--paper);
@@ -600,6 +626,118 @@
         place-items: center;
         position: fixed;
         z-index: 30;
+      }
+      .age-popover,
+      .memory-popover,
+      .virus-popover {
+        align-items: center;
+        background: rgba(23, 61, 52, 0.68);
+        display: none;
+        inset: 0;
+        justify-content: center;
+        padding: 24px;
+        position: fixed;
+        z-index: 45;
+      }
+      .age-popover.open,
+      .memory-popover.open,
+      .virus-popover.open {
+        display: flex;
+      }
+      .age-card,
+      .virus-card {
+        background: #fffdf4;
+        box-shadow: 10px 10px 0 rgba(23, 61, 52, 0.22);
+        color: var(--forest);
+        max-width: 390px;
+        padding: 38px 32px 32px;
+        position: relative;
+        text-align: center;
+        transform: rotate(1deg);
+        width: 100%;
+      }
+      .age-card h2,
+      .virus-card h2 {
+        font: 42px var(--serif);
+        line-height: 0.95;
+        margin: 18px 0 13px;
+      }
+      .age-card p,
+      .virus-card p {
+        color: #53635a;
+        font-size: 13px;
+        line-height: 1.7;
+        margin: 0;
+      }
+      .age-form {
+        display: flex;
+        gap: 8px;
+        margin-top: 22px;
+      }
+      .age-input {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        color: var(--forest);
+        min-width: 0;
+        padding: 12px 13px;
+        text-align: center;
+        width: 100%;
+      }
+      .age-submit,
+      .virus-retry {
+        background: var(--forest);
+        color: var(--paper);
+        padding: 12px 16px;
+        white-space: nowrap;
+      }
+      .virus-card {
+        background: #17211e;
+        color: #dff1d8;
+        transform: rotate(-1deg);
+      }
+      .virus-card .eyebrow {
+        color: #f1aaa9;
+      }
+      .virus-card p {
+        color: #a8c4ae;
+      }
+      .virus-status {
+        border: 1px dashed #f1aaa9;
+        color: #f1aaa9;
+        font: 11px var(--mono);
+        margin: 19px 0;
+        padding: 11px;
+        text-transform: uppercase;
+      }
+      .memory-popover {
+        background: rgba(8, 20, 17, 0.82);
+        opacity: 1;
+        transition: opacity 0.8s ease;
+      }
+      .memory-popover.dimming {
+        opacity: 0;
+      }
+      .memory-card {
+        max-width: min(720px, 100%);
+        position: relative;
+        transform: rotate(-1deg);
+        width: 100%;
+      }
+      .memory-card video {
+        background: #081411;
+        box-shadow: 14px 14px 0 rgba(0, 0, 0, 0.25);
+        display: block;
+        max-height: 78vh;
+        object-fit: contain;
+        width: 100%;
+      }
+      .memory-caption {
+        color: #dbe9d8;
+        font: 12px var(--mono);
+        letter-spacing: 0.08em;
+        margin-top: 16px;
+        text-align: center;
+        text-transform: uppercase;
       }
       .birthday-popover.open {
         display: grid;
@@ -1047,32 +1185,72 @@
         padding: 3px;
       }
       .frame-choice {
-        background: var(--paper);
+        align-items: center;
+        background: #ead9c7;
         border: 2px solid transparent;
-        flex: 0 0 50px;
-        height: 70px;
-        overflow: hidden;
-        padding: 0;
+        color: #755847;
+        display: flex;
+        flex: 0 0 106px;
+        flex-direction: column;
+        gap: 4px;
+        height: 76px;
+        justify-content: center;
+        padding: 7px;
+        transition:
+          border-color 0.25s ease,
+          transform 0.25s ease;
+      }
+      .frame-choice:hover {
+        transform: translateY(-4px) rotate(-3deg);
       }
       .frame-choice.selected {
-        border-color: var(--forest);
+        border-color: #755847;
+        transform: translateY(-5px);
       }
-      .frame-choice img {
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
+      .frame-choice strong {
+        font: 14px var(--serif);
+      }
+      .frame-choice small {
+        color: #a58b7b;
+        font: 9px var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .frame-choice[data-design="film"] {
+        background: #dbe7d7;
+        color: #315447;
+      }
+      .frame-choice[data-design="blush"] {
+        background: #f0d8d7;
+        color: #8b526c;
+      }
+      .frame-choice[data-design="contact"] {
+        background: #efe3b9;
+        color: #665526;
+      }
+      .frame-choice[data-design="midnight"] {
+        background: #263e39;
+        color: #e9d3a0;
+      }
+      .frame-choice[data-design="scrapbook"] {
+        background: #f5e9d7;
+        color: #6d5947;
       }
       .booth-copy h3 {
-        color: var(--forest);
-        font: 43px var(--serif);
-        line-height: 0.95;
-        margin: 15px 0;
+        color: #755847;
+        font: 600 50px var(--serif);
+        line-height: 0.9;
+        margin: 20px 0 14px;
       }
       .booth-copy p {
-        color: #5a6653;
+        color: #a58b7b;
         font-size: 13px;
         line-height: 1.7;
         max-width: 360px;
+      }
+      .booth-copy {
+        max-width: 420px;
+        text-align: center;
       }
       .love-modal {
         background: rgba(23, 61, 52, 0.65);
@@ -1215,6 +1393,112 @@
           transform: translateY(105vh) rotate(720deg);
         }
       }
+      .bobby-buddy {
+        align-items: center;
+        background: transparent;
+        border: 0;
+        bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 0;
+        position: fixed;
+        right: 28px;
+        transition:
+          right 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+          bottom 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+        width: 92px;
+        z-index: 25;
+      }
+      .bobby-buddy img {
+        background: transparent;
+        filter: drop-shadow(4px 6px 0 rgba(23, 61, 52, 0.16));
+        image-rendering: pixelated;
+        mix-blend-mode: multiply;
+        transform-origin: 50% 90%;
+        transition:
+          filter 0.3s ease,
+          transform 0.3s ease;
+        width: 92px;
+      }
+      .bobby-buddy:hover img {
+        filter: drop-shadow(4px 6px 0 rgba(23, 61, 52, 0.16)) saturate(1.2);
+        transform: translateY(-6px) rotate(-4deg) scale(1.05);
+      }
+      .bobby-bubble {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        color: var(--forest);
+        display: block;
+        font: 9px var(--mono);
+        max-width: 150px;
+        opacity: 0;
+        padding: 7px 9px;
+        pointer-events: none;
+        position: absolute;
+        right: 58px;
+        text-align: center;
+        top: -18px;
+        transform: translateY(7px) rotate(-2deg);
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+        white-space: nowrap;
+      }
+      .bobby-bubble::after {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid var(--line);
+        bottom: -7px;
+        content: "";
+        position: absolute;
+        right: 14px;
+      }
+      .bobby-buddy:hover .bobby-bubble,
+      .bobby-buddy.show-bubble .bobby-bubble {
+        opacity: 1;
+        transform: translateY(0) rotate(-2deg);
+      }
+      .bobby-emotion {
+        color: var(--leaf);
+        font: 18px var(--serif);
+        left: 3px;
+        opacity: 0;
+        position: absolute;
+        top: 9px;
+        transform: translateY(5px) rotate(-12deg);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+      .bobby-buddy.show-emotion .bobby-emotion {
+        opacity: 1;
+        transform: translateY(0) rotate(-12deg);
+      }
+      .bobby-buddy.is-bouncing img {
+        animation: bobby-hop 0.65s ease;
+      }
+      @keyframes bobby-hop {
+        30% {
+          transform: translateY(-18px) rotate(8deg) scale(1.08);
+        }
+        65% {
+          transform: translateY(2px) rotate(-5deg) scale(0.98);
+        }
+      }
+      @media (max-width: 720px) {
+        .bobby-buddy {
+          bottom: 16px;
+          right: 14px;
+          width: 72px;
+        }
+        .bobby-buddy img {
+          width: 72px;
+        }
+        .bobby-bubble {
+          right: 42px;
+        }
+      }
       .footer {
         background: var(--forest);
         color: #b7cdb9;
@@ -1272,6 +1556,12 @@
         .gallery {
           gap: 8px;
           grid-template-columns: 1fr 1fr;
+        }
+        .gallery figure:first-child {
+          aspect-ratio: 1.45 / 1;
+        }
+        .gallery figure:not(:first-child) {
+          aspect-ratio: 1.08 / 1;
         }
         .gallery figure:first-child {
           grid-column: span 2;
@@ -1509,7 +1799,7 @@
               <h2 class="serif">The Nik<br />cinematic universe.</h2>
             </div>
             <p class="section-note">
-              A video note archive of one very handsome, very unserious birthday
+              A video note archive of a very handsome, very unserious birthday
               boy.
             </p>
           </div>
@@ -1593,7 +1883,7 @@
               <h2 class="serif">Our little<br />soundtrack.</h2>
             </div>
             <p class="section-note">
-              For late drives, quiet rooms, and every in-between kind of
+              For late drives, quiet rooms, and every in between kind of
               feeling.
             </p>
           </div>
@@ -1603,7 +1893,7 @@
                 src="../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.58 AM (3).jpeg"
                 alt="Nik and me"
               />
-              <p>nik's birthday mix<br />10 songs / many feelings</p>
+              <p>Nik's birthday mix<br />10 songs / many feelings</p>
             </div>
             <div class="track-list" id="trackList">
               <div
@@ -1644,7 +1934,7 @@
                   <div class="track-title">
                     Masa ini, Nanti, dan Masa Indah Lainnya
                   </div>
-                  <div class="track-artist">A song for all our tomorrows</div>
+                  <div class="track-artist">Nuca</div>
                 </div>
                 <button class="play-button" aria-label="Play Masa ini">
                   ▶
@@ -1699,7 +1989,7 @@
                 <span class="track-number">07</span>
                 <div>
                   <div class="track-title">Reminisensi</div>
-                  <div class="track-artist">A song for remembering</div>
+                  <div class="track-artist">Insomniacks</div>
                 </div>
                 <button class="play-button" aria-label="Play Reminisensi">
                   ▶
@@ -1766,20 +2056,20 @@
           <div class="order-layout">
             <div class="order-ticket">
               <div class="eyebrow">customer profile / birthday edition</div>
-              <h3>Tea, but make it Nik.</h3>
+              <h3>Tea, but make it about Nik.</h3>
               <p>
-                One order, carefully studied. The answer is always “yes, let's
-                get CHAGEE.”
+                One order, carefully studied from someone who always say “Mana
+                CHAGEE saya..?”.
               </p>
               <div class="order-lines">
                 <div class="order-line">
-                  <span>usual mood</span><strong>happy-ish</strong>
+                  <span>personality</span><strong>a softie</strong>
                 </div>
                 <div class="order-line">
-                  <span>tea loyalty</span><strong>100%</strong>
+                  <span>fav word</span><strong>"aluuuu"</strong>
                 </div>
                 <div class="order-line">
-                  <span>birthday age</span><strong>22 (old)</strong>
+                  <span>occupation</span><strong>Ery's CHAGEE supplier</strong>
                 </div>
               </div>
             </div>
@@ -1808,22 +2098,22 @@
           <div class="section-head">
             <div>
               <div class="eyebrow">Terms & conditions</div>
-              <h2 class="serif">A few promises<br />for 22.</h2>
+              <h2 class="serif">A few promises<br />for this 22yr old boy.</h2>
             </div>
             <p class="section-note">
-              Small-print promises. Very serious. Legally binding in the court
-              of my heart.
+              Small cute promises. Very serious. Legally binding in the court of
+              my heart.
             </p>
           </div>
           <div class="promise-layout">
             <div class="promise-list">
               <div class="promise-item">
                 <span class="promise-number">01</span
-                ><strong>More late-night drives.</strong>
+                ><strong>More late night drives.</strong>
               </div>
               <div class="promise-item">
                 <span class="promise-number">02</span
-                ><strong>More food trips with no plan.</strong>
+                ><strong>More food trips around Malaysia.</strong>
               </div>
               <div class="promise-item">
                 <span class="promise-number">03</span
@@ -1849,8 +2139,8 @@
                 </h3>
                 <p class="typed-text" style="min-height: auto">
                   There will be good days, weird days, big decisions, small
-                  wins, and at least one more CHAGEE run. I want to be there for
-                  all of it.
+                  wins, and at least one more CHAGEE run with me. I want to be
+                  there for all of it. Do let me know and update me more.
                 </p>
               </div>
             </div>
@@ -1882,75 +2172,54 @@
               <div class="booth-camera">
                 <video id="boothVideo" autoplay muted playsinline></video>
                 <div class="booth-placeholder" id="boothPlaceholder">
-                  your camera will appear here<br />probably looking very cute
+                  <div>⌁<br />start the camera<br />then give us a pose</div>
                 </div>
               </div>
               <canvas id="boothCanvas" class="booth-preview" hidden></canvas>
               <div class="booth-controls">
                 <button class="booth-button primary" id="boothStart">
-                  turn camera on</button
-                ><button class="booth-button" id="boothSnap">take strip</button
-                ><a
+                  turn camera on
+                </button>
+                <label class="booth-button" for="boothUpload"
+                  >upload photos</label
+                >
+                <input
+                  id="boothUpload"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  hidden
+                />
+                <button class="booth-button" id="boothSnap" disabled>
+                  take photo <span id="boothCount">0/3</span>
+                </button>
+                <button class="booth-button" id="boothReset">retake</button>
+                <a
                   class="booth-button"
                   id="boothSave"
                   hidden
                   download="nik-birthday-strip.png"
-                  >save strip</a
+                  >save strip ↓</a
                 >
               </div>
               <div class="booth-status" id="boothStatus">
-                choose a frame, then take 3 cute shots
+                choose a frame, then wake up the camera
               </div>
               <div class="frame-choices" id="frameChoices">
-                <button
-                  class="frame-choice selected"
-                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg"
-                  data-shots="3"
-                >
-                  <img
-                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg"
-                    alt="Plain green hills frame"
-                  />
+                <button class="frame-choice selected" data-design="film">
+                  <strong>Film roll</strong><small>quiet + classic</small>
                 </button>
-                <button
-                  class="frame-choice"
-                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (1).jpeg"
-                  data-shots="3"
-                >
-                  <img
-                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (1).jpeg"
-                    alt="Pink birthday frame"
-                  />
+                <button class="frame-choice" data-design="blush">
+                  <strong>Soft blush</strong><small>sweet + sunny</small>
                 </button>
-                <button
-                  class="frame-choice"
-                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM.jpeg"
-                  data-shots="3"
-                >
-                  <img
-                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM.jpeg"
-                    alt="Cute animal frame"
-                  />
+                <button class="frame-choice" data-design="contact">
+                  <strong>Contact sheet</strong><small>tiny + playful</small>
                 </button>
-                <button
-                  class="frame-choice"
-                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM (1).jpeg"
-                  data-shots="3"
-                >
-                  <img
-                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.23 AM (1).jpeg"
-                    alt="Film frame"
-                  />
+                <button class="frame-choice" data-design="midnight">
+                  <strong>After dark</strong><small>cool + cinematic</small>
                 </button>
-                <button
-                  class="frame-choice"
-                  data-frame="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (2).jpeg"
-                  data-shots="4"
-                >
-                  <img
-                    src="../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM (2).jpeg"
-                    alt="Polka dot frame"
-                  />
+                <button class="frame-choice" data-design="scrapbook">
+                  <strong>Scrapbook</strong><small>messy + lovely</small>
                 </button>
               </div>
             </div>
@@ -1960,7 +2229,8 @@
               <p>
                 The camera is shy at first. Give it permission, pick a frame,
                 then press “take strip.” Your saved PNG is yours to keep, send,
-                or use as evidence that you looked adorable today.
+                or use as evidence that we looked adorable today (or to
+                post...).
               </p>
             </div>
           </div>
@@ -1994,6 +2264,19 @@
     <footer class="footer">
       made with love & a little bit of tea · happy birthday, nik
     </footer>
+    <button
+      class="bobby-buddy"
+      id="bobbyBuddy"
+      type="button"
+      aria-label="Bobby, the little birthday puppy"
+    >
+      <span class="bobby-bubble" id="bobbyBubble">hi, i'm bobby</span>
+      <span class="bobby-emotion" id="bobbyEmotion" aria-hidden="true">✦</span>
+      <img
+        src="../pictures/bobby/bobby-transparent.png"
+        alt="Pixel-art puppy Bobby"
+      />
+    </button>
     <div
       class="note-modal"
       id="noteModal"
@@ -2008,7 +2291,73 @@
       </div>
     </div>
     <div
-      class="birthday-popover open"
+      class="age-popover open"
+      id="agePopover"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ageTitle"
+    >
+      <form class="age-card" id="ageForm">
+        <div class="eyebrow">security check / very serious</div>
+        <h2 id="ageTitle">How old are you?</h2>
+        <p>A tiny birthday verification before your surprise can be opened.</p>
+        <div class="age-form">
+          <input
+            class="age-input"
+            id="ageInput"
+            type="number"
+            min="1"
+            max="120"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="type your age"
+            aria-label="Your age"
+            required
+          />
+          <button class="age-submit" type="submit">enter</button>
+        </div>
+      </form>
+    </div>
+    <div
+      class="virus-popover"
+      id="virusPopover"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="virusTitle"
+    >
+      <div class="virus-card">
+        <div class="eyebrow">system alert / birthday phone</div>
+        <h2 id="virusTitle">Wrong age detected.</h2>
+        <p>Oh no. A very dramatic virus has entered your phone.</p>
+        <div class="virus-status">
+          NIK_AGE.exe is confused...<br />removing incorrect answer...
+        </div>
+        <button class="virus-retry" id="virusRetry" type="button">
+          try again
+        </button>
+      </div>
+    </div>
+    <div
+      class="memory-popover"
+      id="memoryPopover"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="memoryTitle"
+    >
+      <div class="memory-card">
+        <video id="memoryVideo" playsinline>
+          <source
+            src="../meme/c052e4ab37cb870097b496e14bc7df33.mp4"
+            type="video/mp4"
+          />
+        </video>
+        <div class="memory-caption" id="memoryTitle">
+          classified birthday footage / 10 seconds only
+        </div>
+      </div>
+    </div>
+    <div
+      class="birthday-popover"
       id="birthdayPopover"
       role="dialog"
       aria-modal="true"
@@ -2115,9 +2464,58 @@
       const loadingScreen = document.querySelector("#loadingScreen");
       const birthdayPopover = document.querySelector("#birthdayPopover");
       const birthdayClose = document.querySelector("#birthdayClose");
+      const agePopover = document.querySelector("#agePopover");
+      const ageForm = document.querySelector("#ageForm");
+      const ageInput = document.querySelector("#ageInput");
+      const virusPopover = document.querySelector("#virusPopover");
+      const virusRetry = document.querySelector("#virusRetry");
+      const memoryPopover = document.querySelector("#memoryPopover");
+      const memoryVideo = document.querySelector("#memoryVideo");
+      let virusTimer;
+      let memoryTimer;
       const revealPage = () => loadingScreen.classList.add("is-hidden");
       setTimeout(revealPage, 2200);
       window.addEventListener("load", () => setTimeout(revealPage, 900));
+      setTimeout(() => ageInput.focus(), 500);
+      function retryAge() {
+        clearTimeout(virusTimer);
+        virusPopover.classList.remove("open");
+        agePopover.classList.add("open");
+        ageInput.value = "";
+        setTimeout(() => ageInput.focus(), 120);
+      }
+      function showBirthdayVideo() {
+        agePopover.classList.remove("open");
+        primePlaylist();
+        memoryPopover.classList.add("open");
+        memoryVideo.currentTime = 0;
+        memoryVideo.play().catch(() => {
+          memoryVideo.muted = true;
+          memoryVideo.play();
+        });
+        clearTimeout(memoryTimer);
+        memoryTimer = setTimeout(() => {
+          memoryPopover.classList.add("dimming");
+          setTimeout(() => {
+            memoryPopover.classList.remove("open", "dimming");
+            memoryVideo.pause();
+            birthdayPopover.classList.add("open");
+            startPlaylist();
+          }, 800);
+        }, 10000);
+      }
+      ageForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (ageInput.value.trim() === "22") {
+          showBirthdayVideo();
+          return;
+        }
+        agePopover.classList.remove("open");
+        virusPopover.classList.add("open");
+        clearTimeout(virusTimer);
+        virusTimer = setTimeout(retryAge, 5000);
+      });
+      virusRetry.addEventListener("click", retryAge);
       birthdayClose.addEventListener("click", () =>
         birthdayPopover.classList.remove("open"),
       );
@@ -2326,15 +2724,98 @@
       }, 2600);
       document.querySelector(".brand-mark").addEventListener("click", () => {
         const secret = document.querySelector("#hiddenNote");
+        secret.textContent =
+          "secret unlocked: Nik is legally required to receive a CHAGEE.";
         secret.classList.toggle("open");
+      });
+      const hiddenNote = document.querySelector("#hiddenNote");
+      let hiddenNoteTimer;
+      function showHiddenNote(message) {
+        hiddenNote.textContent = message;
+        hiddenNote.classList.add("open");
+        clearTimeout(hiddenNoteTimer);
+        hiddenNoteTimer = setTimeout(
+          () => hiddenNote.classList.remove("open"),
+          2600,
+        );
+      }
+      const bobbyBuddy = document.querySelector("#bobbyBuddy");
+      const bobbyBubble = document.querySelector("#bobbyBubble");
+      const bobbyEmotion = document.querySelector("#bobbyEmotion");
+      const bobbyMoods = [
+        ["hi, i'm bobby", "✦"],
+        ["you found me!", "♡"],
+        ["zoomies!!", "!!"],
+        ["i'm thinking about snacks", "…"],
+        ["sleepy birthday puppy", "z"],
+      ];
+      let bobbyMood = 0;
+      let bobbyBubbleTimer;
+      let bobbyScrollTimer;
+      function showBobbyMood(index) {
+        bobbyMood = index % bobbyMoods.length;
+        bobbyBubble.textContent = bobbyMoods[bobbyMood][0];
+        bobbyEmotion.textContent = bobbyMoods[bobbyMood][1];
+        bobbyBuddy.classList.add("show-bubble", "show-emotion", "is-bouncing");
+        clearTimeout(bobbyBubbleTimer);
+        bobbyBubbleTimer = setTimeout(() => {
+          bobbyBuddy.classList.remove("show-bubble", "show-emotion");
+        }, 2400);
+        setTimeout(() => bobbyBuddy.classList.remove("is-bouncing"), 700);
+      }
+      function wanderBobby() {
+        const maxRight = window.innerWidth < 720 ? 92 : 150;
+        const maxBottom = window.innerWidth < 720 ? 100 : 135;
+        bobbyBuddy.style.right = `${18 + Math.random() * maxRight}px`;
+        bobbyBuddy.style.bottom = `${16 + Math.random() * maxBottom}px`;
+      }
+      bobbyBuddy.addEventListener("click", () => {
+        showBobbyMood(bobbyMood + 1);
+        if (bobbyMood === 2) wanderBobby();
+        showHiddenNote("Bobby says: " + bobbyMoods[bobbyMood][0] + ".");
+      });
+      bobbyBuddy.addEventListener("mouseenter", () => {
+        bobbyBubble.textContent = "click me for a mood";
+      });
+      window.addEventListener("scroll", () => {
+        clearTimeout(bobbyScrollTimer);
+        bobbyScrollTimer = setTimeout(() => {
+          if (window.scrollY > 120) showBobbyMood(2);
+        }, 180);
+      });
+      setInterval(wanderBobby, 9000);
+      const heroPhoto = document.querySelector(".hero-photo");
+      heroPhoto.addEventListener("click", () => {
+        heroPhoto.classList.remove("is-loved");
+        void heroPhoto.offsetWidth;
+        heroPhoto.classList.add("is-loved");
+        showHiddenNote("tiny proof that you two are very cute.");
+      });
+      document.querySelectorAll("#gallery figure").forEach((figure) =>
+        figure.addEventListener("click", () => {
+          figure.classList.toggle("is-peeking");
+          if (figure.classList.contains("is-peeking")) {
+            showHiddenNote("archive note: this one made me smile too.");
+          }
+        }),
+      );
+      let secretKeys = "";
+      document.addEventListener("keydown", (event) => {
+        if (!["n", "i", "k"].includes(event.key.toLowerCase())) return;
+        secretKeys = (secretKeys + event.key.toLowerCase()).slice(-3);
+        if (secretKeys === "nik") {
+          showHiddenNote(
+            "you found the tiny birthday password. very impressive.",
+          );
+          secretKeys = "";
+        }
       });
       const boothVideo = document.querySelector("#boothVideo");
       const boothCanvas = document.querySelector("#boothCanvas");
       const boothPlaceholder = document.querySelector("#boothPlaceholder");
       const boothSave = document.querySelector("#boothSave");
       const boothStatus = document.querySelector("#boothStatus");
-      let selectedFrame =
-        "../photobooth/WhatsApp Image 2026-09-16 at 3.46.22 AM.jpeg";
+      let selectedDesign = "film";
       let selectedShots = 3;
       let boothStream;
       document.querySelectorAll(".frame-choice").forEach((choice) =>
@@ -2343,10 +2824,11 @@
             .querySelectorAll(".frame-choice")
             .forEach((item) => item.classList.remove("selected"));
           choice.classList.add("selected");
-          selectedFrame = choice.dataset.frame;
-          selectedShots = Number(choice.dataset.shots);
+          selectedDesign = choice.dataset.design;
+          selectedShots = Number(choice.dataset.shots || 3);
           boothStatus.textContent = `choose a pose, then take ${selectedShots} cute shots`;
           boothCanvas.hidden = true;
+          boothCanvas.classList.remove("visible");
           boothSave.hidden = true;
         }),
       );
@@ -2359,12 +2841,140 @@
               audio: false,
             });
             boothVideo.srcObject = boothStream;
-            boothPlaceholder.hidden = true;
+            boothVideo.classList.add("active");
+            boothPlaceholder.classList.add("hidden");
+            document.querySelector("#boothSnap").disabled = false;
+            boothStatus.textContent = "camera ready — give us your first pose";
           } catch (error) {
             boothPlaceholder.textContent =
               "Camera shy? Allow camera access, then try again.";
+            boothStatus.textContent =
+              "camera access was skipped — try again or use a frame preview";
           }
         });
+      function renderDesignedStrip(shots) {
+        const width = 720;
+        const height = selectedDesign === "contact" ? 900 : 1180;
+        boothCanvas.width = width;
+        boothCanvas.height = height;
+        const context = boothCanvas.getContext("2d");
+        const palettes = {
+          film: { paper: "#dbe7d7", ink: "#315447", accent: "#f8f3e5" },
+          blush: { paper: "#f0d8d7", ink: "#8b526c", accent: "#fff8f1" },
+          contact: { paper: "#efe3b9", ink: "#665526", accent: "#fff9e8" },
+          midnight: { paper: "#263e39", ink: "#e9d3a0", accent: "#f5ead2" },
+          scrapbook: { paper: "#f5e9d7", ink: "#6d5947", accent: "#fffaf1" },
+        };
+        const palette = palettes[selectedDesign];
+        context.fillStyle = palette.paper;
+        context.fillRect(0, 0, width, height);
+        const drawPhoto = (
+          image,
+          x,
+          y,
+          photoWidth,
+          photoHeight,
+          tilt = 0,
+          border = 12,
+        ) => {
+          context.save();
+          context.translate(x + photoWidth / 2, y + photoHeight / 2);
+          context.rotate(tilt);
+          context.fillStyle = palette.accent;
+          context.fillRect(
+            -photoWidth / 2 - border,
+            -photoHeight / 2 - border,
+            photoWidth + border * 2,
+            photoHeight + border * 2,
+          );
+          context.beginPath();
+          context.rect(
+            -photoWidth / 2,
+            -photoHeight / 2,
+            photoWidth,
+            photoHeight,
+          );
+          context.clip();
+          const scale = Math.max(
+            photoWidth / image.width,
+            photoHeight / image.height,
+          );
+          const drawWidth = image.width * scale;
+          const drawHeight = image.height * scale;
+          context.drawImage(
+            image,
+            -drawWidth / 2,
+            -drawHeight / 2,
+            drawWidth,
+            drawHeight,
+          );
+          context.restore();
+        };
+        context.fillStyle = palette.ink;
+        context.textAlign = "center";
+        context.font = "600 31px Georgia";
+        context.fillText(
+          selectedDesign === "midnight"
+            ? "AFTER DARK / 22"
+            : "A LITTLE MEMORY OF US",
+          width / 2,
+          58,
+        );
+        if (selectedDesign === "contact") {
+          shots.forEach((image, index) =>
+            drawPhoto(
+              image,
+              68 + index * 214,
+              190,
+              180,
+              430,
+              index === 1 ? 0 : index === 0 ? -0.025 : 0.025,
+              10,
+            ),
+          );
+          context.font = "24px Georgia";
+          context.fillText("CONTACT SHEET / 01 02 03", width / 2, 700);
+          context.font = "42px Georgia";
+          context.fillText("♡", width / 2, 790);
+        } else {
+          const photoWidth = selectedDesign === "midnight" ? 530 : 570;
+          const photoHeight = selectedDesign === "midnight" ? 280 : 300;
+          shots.forEach((image, index) => {
+            const x =
+              (width - photoWidth) / 2 +
+              (selectedDesign === "scrapbook" ? (index - 1) * 12 : 0);
+            const y = 125 + index * 315;
+            const tilt =
+              selectedDesign === "scrapbook"
+                ? [-0.035, 0.018, -0.025][index]
+                : 0;
+            drawPhoto(
+              image,
+              x,
+              y,
+              photoWidth,
+              photoHeight,
+              tilt,
+              selectedDesign === "film" ? 8 : 14,
+            );
+          });
+          context.font =
+            selectedDesign === "blush" ? "34px Georgia" : "24px Georgia";
+          context.fillText(
+            selectedDesign === "blush"
+              ? "the sweetest little archive"
+              : "three frames, one very good day",
+            width / 2,
+            height - 62,
+          );
+        }
+        boothCanvas.hidden = false;
+        boothCanvas.classList.add("visible");
+        boothSave.href = boothCanvas.toDataURL("image/png");
+        boothSave.hidden = false;
+        boothSave.textContent = "save your strip ↓";
+        boothStatus.textContent = `preview ready: ${selectedDesign} edition, looking iconic`;
+      }
       document
         .querySelector("#boothSnap")
         .addEventListener("click", async () => {
@@ -2377,6 +2987,8 @@
           const shots = [];
           for (let shotIndex = 0; shotIndex < selectedShots; shotIndex += 1) {
             boothStatus.textContent = `shot ${shotIndex + 1} of ${selectedShots}... pose!`;
+            document.querySelector("#boothCount").textContent =
+              `${shotIndex + 1}/${selectedShots}`;
             await new Promise((resolve) => setTimeout(resolve, 850));
             const shotCanvas = document.createElement("canvas");
             shotCanvas.width = boothVideo.videoWidth;
@@ -2386,6 +2998,9 @@
               .drawImage(boothVideo, 0, 0, shotCanvas.width, shotCanvas.height);
             shots.push(shotCanvas);
           }
+          renderDesignedStrip(shots);
+          snapButton.disabled = false;
+          return;
           const frame = new Image();
           frame.src = selectedFrame;
           await new Promise((resolve) => {
@@ -2466,11 +3081,54 @@
             context.restore();
           });
           boothCanvas.hidden = false;
+          boothCanvas.classList.add("visible");
           boothSave.href = boothCanvas.toDataURL("image/png");
           boothSave.hidden = false;
           boothSave.textContent = "save your strip ↓";
           boothStatus.textContent = `preview ready: ${selectedShots} shots of you, looking iconic`;
           snapButton.disabled = false;
+        });
+      document.querySelector("#boothReset").addEventListener("click", () => {
+        boothCanvas.hidden = true;
+        boothCanvas.classList.remove("visible");
+        boothSave.hidden = true;
+        boothStatus.textContent = boothVideo.classList.contains("active")
+          ? "fresh strip — ready for pose number one"
+          : "choose a frame, then wake up the camera";
+        document.querySelector("#boothCount").textContent = "0/3";
+      });
+      document
+        .querySelector("#boothUpload")
+        .addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            const image = new Image();
+            image.onload = () => {
+              boothVideo.classList.remove("active");
+              boothPlaceholder.classList.add("hidden");
+              boothCanvas.hidden = false;
+              boothCanvas.classList.add("visible");
+              boothCanvas.width = 720;
+              boothCanvas.height = 980;
+              const context = boothCanvas.getContext("2d");
+              context.fillStyle = "#fffdf4";
+              context.fillRect(0, 0, boothCanvas.width, boothCanvas.height);
+              context.drawImage(image, 38, 38, 644, 860);
+              context.fillStyle = "#755847";
+              context.font = "26px Georgia";
+              context.textAlign = "center";
+              context.fillText("a little memory of us", 360, 930);
+              boothSave.href = boothCanvas.toDataURL("image/png");
+              boothSave.hidden = false;
+              boothStatus.textContent =
+                "preview ready — save your little memory";
+            };
+            image.src = reader.result;
+          };
+          reader.readAsDataURL(file);
+          event.target.value = "";
         });
       const loveModal = document.querySelector("#loveModal");
       const noButton = document.querySelector("#noButton");
@@ -2562,15 +3220,27 @@
         activeTrack = track;
         audio.src = track.dataset.src;
         audio.load();
+        audio.muted = false;
         markTrack(track);
         const attempt = audio.play();
         if (attempt) attempt.catch(() => markTrack(null));
       }
       function startPlaylist() {
-        playTrack(activeTrack || openingTrack || tracks[0]);
+        if (activeTrack && !audio.paused) {
+          audio.currentTime = 0;
+          audio.muted = false;
+          markTrack(activeTrack);
+          return;
+        }
+        if (activeTrack) {
+          audio.currentTime = 0;
+          audio.muted = false;
+          markTrack(activeTrack);
+          audio.play().catch(() => markTrack(null));
+          return;
+        }
+        playTrack(openingTrack || tracks[0]);
       }
-      birthdayClose.addEventListener("click", startPlaylist);
-      document.addEventListener("pointerdown", startPlaylist, { once: true });
       tracks.forEach((track) =>
         track.querySelector(".play-button").addEventListener("click", () => {
           if (activeTrack === track && !audio.paused) {
@@ -2586,7 +3256,14 @@
         if (nextIndex < tracks.length) playTrack(tracks[nextIndex]);
         else markTrack(null);
       });
-      playTrack(openingTrack || tracks[0]);
+      function primePlaylist() {
+        if (activeTrack || !openingTrack) return;
+        activeTrack = openingTrack;
+        audio.src = openingTrack.dataset.src;
+        audio.load();
+        audio.muted = true;
+        audio.play().catch(() => {});
+      }
       const letter =
         "Happy birthday to my favourite person. You're old! Thank you for being the kind of person who makes life feel lighter, funnier, and a little more like an adventure. I love all the ordinary and crazy moments with you most. Though all the arguments and all, I hope on trying my best to stay with you, and hoping you would do the same too. Here's to being 22 (old), and to every cup of Chagee and little life we have left to share. Hoping we could share more years together.";
       const typedText = document.querySelector("#typedText");

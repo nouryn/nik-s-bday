@@ -667,6 +667,7 @@
         background: rgba(23, 61, 52, 0.5);
         display: none;
         inset: 0;
+        overflow-y: auto;
         padding: 24px;
         place-items: center;
         position: fixed;
@@ -843,6 +844,8 @@
         background: #fffdf4;
         box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
         max-width: 480px;
+        max-height: calc(100dvh - 48px);
+        overflow-y: auto;
         padding: 42px 36px;
         position: relative;
         width: 100%;
@@ -917,6 +920,7 @@
       .track-title {
         font-size: 13px;
         font-weight: 700;
+        overflow-wrap: anywhere;
       }
       .track-artist {
         color: var(--muted);
@@ -1675,6 +1679,14 @@
         .track {
           gap: 10px;
           grid-template-columns: 25px 1fr auto;
+        }
+        .note-modal {
+          align-items: start;
+          padding: 16px;
+        }
+        .note-paper {
+          max-height: calc(100dvh - 32px);
+          padding: 36px 28px 32px;
         }
         .letter-section {
           padding: 90px 0;
@@ -2596,9 +2608,10 @@
         virusTimer = setTimeout(retryAge, 5000);
       });
       virusRetry.addEventListener("click", retryAge);
-      birthdayClose.addEventListener("click", () =>
-        birthdayPopover.classList.remove("open"),
-      );
+      birthdayClose.addEventListener("click", () => {
+        birthdayPopover.classList.remove("open");
+        startPlaylist();
+      });
       birthdayPopover.addEventListener("click", (event) => {
         if (event.target === birthdayPopover)
           birthdayPopover.classList.remove("open");
@@ -3284,6 +3297,7 @@
         history.replaceState(null, "", "#playlist");
       });
       const audio = new Audio();
+      audio.preload = "auto";
       const tracks = [...document.querySelectorAll(".track")];
       const openingTrack = tracks.find((track) =>
         track.dataset.src.endsWith("Reminisensi.mp3"),
@@ -3298,7 +3312,7 @@
       }
       function playTrack(track) {
         activeTrack = track;
-        audio.src = track.dataset.src;
+        audio.src = new URL(track.dataset.src, document.baseURI).href;
         audio.load();
         audio.autoplay = true;
         audio.muted = false;
@@ -3340,7 +3354,7 @@
       function primePlaylist() {
         if (activeTrack || !openingTrack) return;
         activeTrack = openingTrack;
-        audio.src = openingTrack.dataset.src;
+        audio.src = new URL(openingTrack.dataset.src, document.baseURI).href;
         audio.load();
         audio.muted = true;
         audio.play().catch(() => {});

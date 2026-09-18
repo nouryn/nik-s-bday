@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101d1a" />
+    <title>Our little memory room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --night: #101d1a;
+        --forest: #183f36;
+        --mint: #cfe2ce;
+        --paper: #f8f6ef;
+        --pink: #e7b7aa;
+        --tea: #f0c66b;
+        --mono: "DM Mono", monospace;
+        --serif: "DM Serif Display", Georgia, serif;
+        --sans: "Manrope", Arial, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        min-height: 100%;
+      }
+      body {
+        background: var(--night);
+        color: var(--paper);
+        font-family: var(--sans);
+        margin: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      button {
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+      }
+      .world {
+        height: 170dvh;
+        min-height: 560px;
+        overflow: hidden;
+        perspective: 1200px;
+        position: relative;
+        touch-action: manipulation;
+      }
+      .world-grid {
+        background-image:
+          linear-gradient(
+            90deg,
+            transparent 0 7%,
+            rgba(207, 226, 206, 0.06) 7% calc(7% + 1px),
+            transparent calc(7% + 1px) 93%,
+            rgba(207, 226, 206, 0.06) 93% calc(93% + 1px),
+            transparent calc(93% + 1px)
+          ),
+          linear-gradient(rgba(207, 226, 206, 0.04) 1px, transparent 1px);
+        background-size:
+          100% 100%,
+          100% 46px;
+        inset: 0;
+        opacity: 0.55;
+        pointer-events: none;
+        position: absolute;
+      }
+      .world:before {
+        background: radial-gradient(
+          circle,
+          rgba(207, 226, 206, 0.14) 0 1px,
+          transparent 1px 100%
+        );
+        background-size: 34px 34px;
+        content: "";
+        inset: 0;
+        opacity: 0.35;
+        pointer-events: none;
+        position: absolute;
+      }
+      .world:after {
+        background: linear-gradient(
+          90deg,
+          var(--night) 0%,
+          transparent 22%,
+          transparent 78%,
+          var(--night) 100%
+        );
+        content: "";
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
+        z-index: 3;
+      }
+      .world-floor {
+        background: radial-gradient(
+          ellipse,
+          rgba(99, 162, 126, 0.2),
+          rgba(99, 162, 126, 0.04) 42%,
+          transparent 70%
+        );
+        bottom: 3%;
+        height: 130px;
+        left: 50%;
+        pointer-events: none;
+        position: absolute;
+        transform: translateX(-50%);
+        width: min(760px, 90vw);
+      }
+      .memory-notes {
+        align-items: start;
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        left: 50%;
+        position: absolute;
+        top: 136dvh;
+        transform: translateX(-50%);
+        width: min(880px, calc(100% - 48px));
+      }
+      .memory-note {
+        background: #fffaf0;
+        box-shadow: 8px 10px 0 rgba(0, 0, 0, 0.2);
+        color: var(--forest);
+        min-height: 145px;
+        padding: 20px 18px;
+        transform: rotate(var(--note-tilt));
+      }
+      .memory-note:nth-child(2) {
+        margin-top: 28px;
+      }
+      .memory-note:nth-child(3) {
+        margin-top: 8px;
+      }
+      .memory-note:before {
+        background: var(--tea);
+        content: "";
+        display: block;
+        height: 5px;
+        margin: -20px -18px 17px;
+        opacity: 0.75;
+      }
+      .memory-note .note-label {
+        color: #64816d;
+        display: block;
+        font: 9px var(--mono);
+        letter-spacing: 0.12em;
+        margin-bottom: 13px;
+        text-transform: uppercase;
+      }
+      .memory-note strong {
+        display: block;
+        font: 25px/0.95 var(--serif);
+        margin-bottom: 12px;
+      }
+      .memory-note p {
+        color: #617269;
+        font-size: 11px;
+        line-height: 1.6;
+        margin: 0;
+      }
+      .notes-rail {
+        background: rgba(240, 198, 107, 0.55);
+        bottom: -18px;
+        height: 1px;
+        left: 4%;
+        position: absolute;
+        right: 4%;
+      }
+      .topline {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        left: 0;
+        padding: 24px 30px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 10;
+      }
+      .brand-lockup {
+        align-items: center;
+        display: flex;
+        gap: 11px;
+      }
+      .brand-mark {
+        align-items: center;
+        border: 1px solid var(--tea);
+        border-radius: 50%;
+        color: var(--tea);
+        display: flex;
+        font: 16px var(--serif);
+        height: 30px;
+        justify-content: center;
+        width: 30px;
+      }
+      .label {
+        color: var(--mint);
+        font: 11px var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .exit {
+        background: transparent;
+        border: 1px solid rgba(248, 246, 239, 0.4);
+        color: var(--paper);
+        font: 11px var(--mono);
+        padding: 10px 13px;
+        text-transform: uppercase;
+      }
+      .exit:hover {
+        background: var(--paper);
+        color: var(--night);
+      }
+      .intro {
+        left: 50%;
+        max-width: 470px;
+        position: absolute;
+        text-align: center;
+        top: 13%;
+        transform: translateX(-50%);
+        width: calc(100% - 40px);
+        z-index: 4;
+      }
+      .intro .label:first-child {
+        color: var(--tea);
+      }
+      h1 {
+        color: var(--mint);
+        font: clamp(40px, 6vw, 72px)/0.9 var(--serif);
+        letter-spacing: -0.03em;
+        margin: 14px 0;
+      }
+      .intro p {
+        color: rgba(248, 246, 239, 0.64);
+        font-size: 12px;
+        line-height: 1.6;
+        margin: auto;
+      }
+      .orbit {
+        height: 270px;
+        left: 50%;
+        position: absolute;
+        top: 58%;
+        transform: translate(-50%, -50%) rotateX(-8deg);
+        transform-style: preserve-3d;
+        width: min(800px, 100vw);
+      }
+      .ring {
+        animation: turn 30s linear infinite;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        width: 100%;
+      }
+      .memory-photo {
+        background: var(--paper);
+        border: 1px solid rgba(248, 246, 239, 0.7);
+        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.34);
+        left: 50%;
+        padding: 8px 8px 30px;
+        position: absolute;
+        top: 50%;
+        transform: rotateY(var(--angle)) translateZ(320px) translate(-50%, -50%)
+          rotateZ(var(--tilt));
+        transform-style: preserve-3d;
+        width: clamp(92px, 9vw, 112px);
+      }
+      .memory-photo img {
+        aspect-ratio: 1 / 1.16;
+        display: block;
+        object-fit: cover;
+        width: 100%;
+      }
+      .orbit-core {
+        background: radial-gradient(
+          circle at 35% 28%,
+          #416d5d,
+          var(--forest) 58%,
+          #0a1512
+        );
+        border: 1px solid rgba(207, 226, 206, 0.26);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 28px rgba(207, 226, 206, 0.03),
+          0 0 100px rgba(99, 162, 126, 0.18);
+        height: 220px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%) translateZ(-30px);
+        width: 220px;
+      }
+      @keyframes turn {
+        from {
+          transform: rotateY(0deg);
+        }
+        to {
+          transform: rotateY(360deg);
+        }
+      }
+      .reveal {
+        align-items: center;
+        background: rgba(8, 16, 14, 0.76);
+        display: flex;
+        inset: 0;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        transition: opacity 0.45s ease;
+        z-index: 8;
+      }
+      .reveal.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .reveal-frame {
+        background: var(--paper);
+        box-shadow: 14px 14px 0 rgba(0, 0, 0, 0.24);
+        color: var(--forest);
+        max-height: 78dvh;
+        max-width: min(520px, calc(100% - 42px));
+        padding: 10px 10px 38px;
+        position: relative;
+        transform: rotate(-2deg) scale(0.94);
+        transition: transform 0.45s ease;
+        width: 100%;
+      }
+      .reveal.open .reveal-frame {
+        transform: rotate(-2deg) scale(1);
+      }
+      .reveal-frame img,
+      .reveal-frame video {
+        background: #12231e;
+        display: block;
+        max-height: 65dvh;
+        object-fit: contain;
+        width: 100%;
+      }
+      .reveal-frame figcaption {
+        bottom: 11px;
+        font: 10px var(--mono);
+        left: 12px;
+        position: absolute;
+        text-transform: uppercase;
+      }
+      .close-reveal {
+        background: var(--forest);
+        color: var(--paper);
+        font: 10px var(--mono);
+        padding: 8px 10px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 2;
+      }
+      .audio-start {
+        background: var(--pink);
+        bottom: 22px;
+        color: var(--night);
+        display: none;
+        font: 11px var(--mono);
+        left: 50%;
+        padding: 11px 14px;
+        position: absolute;
+        transform: translateX(-50%);
+        z-index: 12;
+      }
+      .audio-start.visible {
+        display: block;
+      }
+      @media (max-width: 720px) {
+        .topline {
+          padding: 18px 16px;
+        }
+        .brand-lockup .label {
+          font-size: 8px;
+          letter-spacing: 0.08em;
+          max-width: 126px;
+        }
+        .intro {
+          top: 14%;
+        }
+        .orbit {
+          top: 61%;
+          transform: translate(-50%, -50%) scale(0.72) rotateX(-8deg);
+        }
+        .memory-photo {
+          width: 100px;
+        }
+        .memory-notes {
+          gap: 9px;
+          grid-template-columns: 1fr;
+          top: 130dvh;
+          width: min(330px, calc(100% - 36px));
+        }
+        .memory-note:nth-child(2),
+        .memory-note:nth-child(3) {
+          margin-top: 0;
+        }
+        .hint {
+          bottom: 6%;
+          font-size: 9px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ring {
+          animation-duration: 90s;
+        }
+      }
+      @media (max-height: 620px) {
+        .orbit {
+          top: 70%;
+        }
+      }
+      @media (max-width: 720px) and (max-height: 680px) {
+        .orbit {
+          top: 70%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="world" id="world" aria-label="A spinning memory album">
+      <div class="world-grid" aria-hidden="true"></div>
+      <div class="topline">
+        <div class="brand-lockup">
+          <span class="brand-mark">N</span>
+          <div class="label">CHAGEE / the little memory room</div>
+        </div>
+        <button class="exit" id="exitButton" type="button">exit album ×</button>
+      </div>
+      <div class="intro">
+        <div class="label">touch to open a memory / 01</div>
+        <h1>Our small<br /><em>cinematic universe.</em></h1>
+        <p>
+          The room keeps turning. Every touch finds another little piece of us.
+        </p>
+      </div>
+      <div class="orbit" aria-hidden="true">
+        <div class="orbit-core"></div>
+        <div class="ring" id="ring"></div>
+      </div>
+      <div class="world-floor" aria-hidden="true"></div>
+      <div class="memory-notes" aria-label="Notes from the memory archive">
+        <article class="memory-note" style="--note-tilt: -2deg">
+          <span class="note-label">note 01 / for nik</span>
+          <strong>You make ordinary days feel like a tiny adventure.</strong>
+          <p>Even the messy, noisy, very gaduh ones.</p>
+        </article>
+        <article class="memory-note" style="--note-tilt: 1.5deg">
+          <span class="note-label">note 02 / filed under us</span>
+          <strong>More late night drives.</strong>
+          <p>More stories, more laughing, more choosing each other.</p>
+        </article>
+        <article class="memory-note" style="--note-tilt: -1deg">
+          <span class="note-label">note 03 / birthday edition</span>
+          <strong>Keep being exactly you.</strong>
+          <p>And please remember: you still owe me a CHAGEE.</p>
+        </article>
+        <div class="notes-rail" aria-hidden="true"></div>
+      </div>
+      <button class="audio-start" id="audioStart" type="button">
+        play our song ♫
+      </button>
+      <div
+        class="reveal"
+        id="reveal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="revealCaption"
+      >
+        <figure class="reveal-frame">
+          <button
+            class="close-reveal"
+            id="closeReveal"
+            type="button"
+            aria-label="Close memory"
+          >
+            close ×
+          </button>
+          <div id="revealMedia"></div>
+          <figcaption id="revealCaption" hidden>memory / loading</figcaption>
+        </figure>
+      </div>
+    </main>
+    <audio
+      id="memorySong"
+      autoplay
+      loop
+      preload="auto"
+      src="../song/Tak ada - cuz nik.mp3"
+    ></audio>
+    <script>
+      const memories = [
+        [
+          "../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.55 AM.jpeg",
+          "the beginning of another good night",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 1.18.56 AM (4).jpeg",
+          "nik, naturally",
+        ],
+        [
+          "../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.57 AM (1).jpeg",
+          "same team, always",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 2.13.34 AM.jpeg",
+          "handsome boy evidence",
+        ],
+        [
+          "../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.58 AM (2).jpeg",
+          "a frame i keep",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 2.13.35 AM (1).jpeg",
+          "professor nik",
+        ],
+        [
+          "../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.58 AM (3).jpeg",
+          "our favourite kind of silly",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 2.19.56 AM.jpeg",
+          "chagee boy forever",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 2.13.35 AM (2).jpeg",
+          "biceps lagi",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 2.13.36 AM.jpeg",
+          "proof of a good day",
+        ],
+        [
+          "../pictures/me + him/WhatsApp Image 2026-09-16 at 1.18.59 AM.jpeg",
+          "one for the little archive",
+        ],
+        [
+          "../pictures/him/WhatsApp Image 2026-09-16 at 1.18.55 AM (1).jpeg",
+          "monkey energy",
+        ],
+      ];
+      const films = [
+        [
+          "../videos/WhatsApp Video 2026-09-16 at 4.29.22 AM.mp4",
+          "five seconds of the good stuff",
+        ],
+        [
+          "../videos/WhatsApp Video 2026-09-16 at 2.45.17 AM.mp4",
+          "tiny main character",
+        ],
+        [
+          "../videos/WhatsApp Video 2026-09-16 at 4.33.06 AM.mp4",
+          "the late-night chapter",
+        ],
+      ];
+      const ring = document.querySelector("#ring");
+      const reveal = document.querySelector("#reveal");
+      const revealMedia = document.querySelector("#revealMedia");
+      const revealCaption = document.querySelector("#revealCaption");
+      const audio = document.querySelector("#memorySong");
+      const audioStart = document.querySelector("#audioStart");
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioContext = AudioContext ? new AudioContext() : null;
+      const audioGain = audioContext ? audioContext.createGain() : null;
+      if (audioContext) {
+        audioContext.createMediaElementSource(audio).connect(audioGain);
+        audioGain.connect(audioContext.destination);
+        audioGain.gain.value = 1.3;
+      }
+      let revealTimer;
+      let nextMemory = 0;
+      let songStarted = false;
+      memories.forEach(([src, caption], index) => {
+        const card = document.createElement("div");
+        card.className = "memory-photo";
+        card.style.setProperty(
+          "--angle",
+          `${index * (360 / memories.length)}deg`,
+        );
+        card.style.setProperty("--tilt", `${index % 2 ? 1.5 : -1.5}deg`);
+        card.innerHTML = `<img src="${src}" alt="${caption}">`;
+        ring.appendChild(card);
+      });
+      function startSong() {
+        const resumeAudio = audioContext
+          ? audioContext.resume()
+          : Promise.resolve();
+        resumeAudio
+          .then(() => audio.play())
+          .then(() => {
+            songStarted = true;
+            audioStart.classList.remove("visible");
+          })
+          .catch(() => audioStart.classList.add("visible"));
+      }
+      function showMemory() {
+        startSong();
+        const isFilm = nextMemory % 4 === 3;
+        const item = isFilm
+          ? films[Math.floor(nextMemory / 4) % films.length]
+          : memories[nextMemory % memories.length];
+        revealMedia.innerHTML = isFilm
+          ? `<video autoplay muted playsinline src="${item[0]}"></video>`
+          : `<img src="${item[0]}" alt="${item[1]}">`;
+        revealCaption.textContent = `memory / ${item[1]}`;
+        reveal.classList.add("open");
+        clearTimeout(revealTimer);
+        revealTimer = setTimeout(closeMemory, 5000);
+        nextMemory += 1;
+      }
+      function closeMemory() {
+        reveal.classList.remove("open");
+        revealMedia.innerHTML = "";
+      }
+      document.querySelector("#world").addEventListener("click", (event) => {
+        if (
+          event.target.closest("button") ||
+          event.target.closest(".reveal-frame")
+        )
+          return;
+        showMemory();
+      });
+      document
+        .querySelector("#closeReveal")
+        .addEventListener("click", closeMemory);
+      reveal.addEventListener("click", (event) => {
+        if (event.target === reveal) closeMemory();
+      });
+      audioStart.addEventListener("click", startSong);
+      startSong();
+      document.querySelector("#exitButton").addEventListener("click", () => {
+        window.location.href = "CHAGEE-home.html?play=rahsia#playlist";
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeMemory();
+        if (event.key === "Enter" || event.key === " ") showMemory();
+      });
+      setTimeout(showMemory, 2400);
+    </script>
+  </body>
+</html>

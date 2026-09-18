@@ -219,6 +219,63 @@
       .memory-section {
         background: var(--cream);
       }
+      .album-portal {
+        background: var(--mint);
+        overflow: hidden;
+        padding: 92px 0;
+        position: relative;
+        text-align: center;
+      }
+      .album-portal:before,
+      .album-portal:after {
+        border: 1px solid rgba(23, 61, 52, 0.2);
+        border-radius: 50%;
+        content: "";
+        height: 230px;
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 230px;
+      }
+      .album-portal:before {
+        left: -110px;
+      }
+      .album-portal:after {
+        right: -110px;
+      }
+      .album-portal .eyebrow {
+        display: block;
+        margin-bottom: 13px;
+      }
+      .album-portal h2 {
+        color: var(--forest);
+        font: 42px/0.95 var(--serif);
+        margin: 0 auto 22px;
+      }
+      .album-portal p {
+        color: #456257;
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 0 auto 26px;
+        max-width: 360px;
+      }
+      .album-door {
+        background: var(--forest);
+        box-shadow: 7px 7px 0 rgba(23, 61, 52, 0.18);
+        color: var(--paper);
+        display: inline-block;
+        font: 11px var(--mono);
+        padding: 14px 20px;
+        text-transform: uppercase;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .album-door:hover {
+        box-shadow: 3px 3px 0 rgba(23, 61, 52, 0.18);
+        transform: translate(4px, 4px) rotate(-1deg);
+      }
       .loading-screen {
         align-items: center;
         background: var(--forest);
@@ -1791,6 +1848,21 @@
           </div>
         </div>
       </section>
+      <section class="album-portal" aria-labelledby="albumPortalTitle">
+        <div class="wrap">
+          <div class="eyebrow">a little door in the archive</div>
+          <h2 id="albumPortalTitle" class="serif">
+            There is more of us in here.
+          </h2>
+          <p>
+            Step into the spinning memory room. Touch the screen whenever you
+            want a new little scene.
+          </p>
+          <a class="album-door" href="memory-album.html"
+            >see more of us <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
       <section class="section reel-section" id="reel">
         <div class="wrap">
           <div class="section-head">
@@ -2473,10 +2545,13 @@
       const memoryVideo = document.querySelector("#memoryVideo");
       let virusTimer;
       let memoryTimer;
+      const ageAlreadyVerified =
+        sessionStorage.getItem("nikAgeVerified") === "true";
+      if (ageAlreadyVerified) agePopover.classList.remove("open");
       const revealPage = () => loadingScreen.classList.add("is-hidden");
       setTimeout(revealPage, 2200);
       window.addEventListener("load", () => setTimeout(revealPage, 900));
-      setTimeout(() => ageInput.focus(), 500);
+      if (!ageAlreadyVerified) setTimeout(() => ageInput.focus(), 500);
       function retryAge() {
         clearTimeout(virusTimer);
         virusPopover.classList.remove("open");
@@ -2485,6 +2560,7 @@
         setTimeout(() => ageInput.focus(), 120);
       }
       function showBirthdayVideo() {
+        sessionStorage.setItem("nikAgeVerified", "true");
         agePopover.classList.remove("open");
         primePlaylist();
         memoryPopover.classList.add("open");
@@ -3220,10 +3296,11 @@
         activeTrack = track;
         audio.src = track.dataset.src;
         audio.load();
+        audio.autoplay = true;
         audio.muted = false;
         markTrack(track);
         const attempt = audio.play();
-        if (attempt) attempt.catch(() => markTrack(null));
+        if (attempt) attempt.catch(() => {});
       }
       function startPlaylist() {
         if (activeTrack && !audio.paused) {
@@ -3263,6 +3340,29 @@
         audio.load();
         audio.muted = true;
         audio.play().catch(() => {});
+      }
+      const rahsiaReturn =
+        new URLSearchParams(window.location.search).get("play") === "rahsia" ||
+        sessionStorage.getItem("playRahsiaTuhan") === "true";
+      if (rahsiaReturn) {
+        sessionStorage.removeItem("playRahsiaTuhan");
+        const rahsiaTrack = tracks.find((track) =>
+          track.dataset.src.includes("Rahsia Tuhan"),
+        );
+        if (rahsiaTrack) {
+          document
+            .querySelector("#playlist")
+            .scrollIntoView({ block: "start" });
+          playTrack(rahsiaTrack);
+          const retryRahsia = () => {
+            if (activeTrack === rahsiaTrack && audio.paused) {
+              audio.play().catch(() => {});
+            }
+          };
+          setTimeout(retryRahsia, 700);
+          setTimeout(retryRahsia, 1800);
+          document.addEventListener("pointerdown", retryRahsia, { once: true });
+        }
       }
       const letter =
         "Happy birthday to my favourite person. You're old! Thank you for being the kind of person who makes life feel lighter, funnier, and a little more like an adventure. I love all the ordinary and crazy moments with you most. Though all the arguments and all, I hope on trying my best to stay with you, and hoping you would do the same too. Here's to being 22 (old), and to every cup of Chagee and little life we have left to share. Hoping we could share more years together.";
